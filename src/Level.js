@@ -26,6 +26,8 @@ function Level(file)
     this.file = file;
     this.loadLevel(file);
     this.processLevel();
+
+    Level.instance = this;
 };
 
 Level.prototype = Object.create(Object.prototype);

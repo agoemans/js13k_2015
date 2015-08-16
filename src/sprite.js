@@ -22,7 +22,7 @@ function Sprite(x,y,image)
     }
 
     this.physics = false;
-    this.gravity = 900;
+    this.gravity = 1500;
     this.velocity = { x: 0, y: 0 };
 };
 
@@ -32,8 +32,31 @@ Sprite.prototype.update = function(deltaSeconds)
 {
     if(this.physics)
     {
-        this.x += this.velocity.x * deltaSeconds;
-        this.y += this.velocity.y * deltaSeconds + this.gravity * deltaSeconds;
+        var elapsed = Math.min(deltaSeconds,0.016);
+        var x = this.x;
+        var y = this.y;
+        var totalSteps = 20;
+        var steps = totalSteps;
+
+        this.velocity.y += this.gravity*elapsed;
+
+        for (var i = 0; i < totalSteps; i++)
+        {
+            x += this.velocity.x * elapsed / totalSteps;
+            y += this.velocity.y * elapsed / totalSteps;
+
+            var sides = Level.instance.tileAt(x , y) || Level.instance.tileAt(x + this.width, y)
+                || Level.instance.tileAt(x, y + this.height) || Level.instance.tileAt(x + this.width , y + this.height);
+            if (sides)
+            {
+                steps = i;
+                break;
+            }
+        }
+
+        var progress = elapsed * steps / totalSteps;
+        this.x += this.velocity.x * progress;
+        this.y += this.velocity.y * progress;
     }
 };
 
