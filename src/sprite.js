@@ -20,12 +20,21 @@ function Sprite(x,y,image)
         this.image = image;
         this.loaded = true;
     }
+
+    this.physics = false;
+    this.gravity = 900;
+    this.velocity = { x: 0, y: 0 };
 };
 
 Sprite.prototype = Object.create(GameObject.prototype);
 
-Sprite.prototype.update = function(deltaSeconds){
-
+Sprite.prototype.update = function(deltaSeconds)
+{
+    if(this.physics)
+    {
+        this.x += this.velocity.x * deltaSeconds;
+        this.y += this.velocity.y * deltaSeconds + this.gravity * deltaSeconds;
+    }
 };
 
 Sprite.prototype.render = function(context){
