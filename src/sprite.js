@@ -22,7 +22,7 @@ function Sprite(x,y,image)
     }
 
     this.physics = false;
-    this.gravity = 1500;
+    this.gravity = 8500;
     this.velocity = { x: 0, y: 0 };
 };
 

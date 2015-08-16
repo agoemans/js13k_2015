@@ -22,7 +22,7 @@ Player.prototype.stop = function(dir)
 
 Player.prototype.jump = function()
 {
-    this.velocity.y = -500;
+    this.velocity.y = -1200 * Math.sign(this.gravity);
 };
 
 Player.prototype.update = function(deltaSeconds){
