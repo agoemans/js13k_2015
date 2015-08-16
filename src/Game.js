@@ -6,11 +6,11 @@ function Game()
 
 Game.prototype = Object.create(State.prototype);
 
-Game.prototype.enter = function()
+Game.prototype.enter = function(config)
 {
     State.prototype.enter.call(this, context);
 
-    this.level = new Level('level1');
+    this.level = new Level(config.level);
 };
 
 Game.prototype.leave = function()
@@ -33,35 +33,19 @@ Game.prototype.mouseMove = function(x,y){
 
 Game.prototype.keyDown = function(key)
 {
-    switch(key)
-    {
-        case 'A':
-            this.level.player.move(-1);
-            break;
-        case 'D':
+    if(key === "A")
+        this.level.player.move(-1);
+    if( key === 'D')
             this.level.player.move(1);
-            break;
-        case ' ':
-            this.level.player.jump();
-            break;
-        case 'Q':
+    if( key === ' ')
+        this.level.player.jump();
+    if( key === 'Q')
             this.level.player.gravity *= -1;
-            break;
-        default:
-            break;
-    }
 };
 
 Game.prototype.keyUp = function(key) {
-    switch(key)
-    {
-        case 'A':
-        case 'D':
-            this.level.player.stop();
-            break;
-        default:
-            break;
-    }
+    if(key === "A" || key === "D")
+        this.level.player.stop();
 };
 
 
