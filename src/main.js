@@ -2,28 +2,44 @@
  * Created by David on 15-Aug-15.
  */
 
-var renderList = [];
-
-var gameFont = "30px Roboto Thin";
+var states = {};
+var activeState = null;
 
 function initGame()
 {
-    var spr = new Sprite(50, 100, "assets/foot.png");
-    var text = new Text(350, 200, gameFont, "Hihi");
-    renderList.push(spr);
-    renderList.push(text);
+    states.menu = new Menu();
+    states.game = new Game();
+    goto("menu");
 }
 
 function updateGame(deltaSeconds)
 {
-    renderList.forEach(function(obj){
-        obj.update(deltaSeconds);
-    });
+    activeState.update(deltaSeconds);
 }
 
 function renderGame(context)
 {
-    renderList.forEach(function(obj){
-        obj.render(context);
-    });
+    activeState.render(context);
+}
+
+function goto(state, config)
+{
+    if(activeState)activeState.leave();
+    activeState = states[state];
+    activeState.enter(config);
+}
+
+function mouseUp(x,y)
+{
+    activeState.mouseUp(x,y);
+}
+
+function mouseDown(x,y)
+{
+    activeState.mouseDown(x,y);
+}
+
+function mouseMove(x,y)
+{
+    activeState.mouseMove(x,y);
 }
