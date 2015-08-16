@@ -1,6 +1,7 @@
 function Game()
 {
     State.call(this);
+    this.level = null;
 };
 
 Game.prototype = Object.create(State.prototype);
@@ -8,6 +9,8 @@ Game.prototype = Object.create(State.prototype);
 Game.prototype.enter = function()
 {
     State.prototype.enter.call(this, context);
+
+    this.level = new Level('level1');
 };
 
 Game.prototype.leave = function()
@@ -20,6 +23,7 @@ Game.prototype.update = function(deltaSeconds){
 };
 
 Game.prototype.render = function(context){
+    this.level.render(context);
     State.prototype.render.call(this, context);
 };
 

@@ -21,17 +21,8 @@ Menu.prototype.enter = function()
     this.add(text);
 };
 
-Menu.prototype.leave = function()
-{
-    State.prototype.leave.call(this);
-};
-
 Menu.prototype.update = function(deltaSeconds){
     State.prototype.update.call(this, deltaSeconds);
-};
-
-Menu.prototype.render = function(context){
-    State.prototype.render.call(this, context);
 };
 
 ctor(Menu);
