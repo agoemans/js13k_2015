@@ -28,4 +28,41 @@ Game.prototype.render = function(context){
     State.prototype.render.call(this, context);
 };
 
+Game.prototype.mouseMove = function(x,y){
+};
+
+Game.prototype.keyDown = function(key)
+{
+    switch(key)
+    {
+        case 'A':
+            this.level.player.move(-1);
+            break;
+        case 'D':
+            this.level.player.move(1);
+            break;
+        case ' ':
+            this.level.player.jump();
+            break;
+        case 'Q':
+            this.level.player.gravity *= -1;
+            break;
+        default:
+            break;
+    }
+};
+
+Game.prototype.keyUp = function(key) {
+    switch(key)
+    {
+        case 'A':
+        case 'D':
+            this.level.player.stop();
+            break;
+        default:
+            break;
+    }
+};
+
+
 ctor(Game);

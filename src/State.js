@@ -94,6 +94,9 @@ State.prototype.mouseMove = function(x,y)
     }
 };
 
+State.prototype.keyDown = function(key){};
+State.prototype.keyUp = function(key){};
+
 ctor(State);
 
 

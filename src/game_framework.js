@@ -56,6 +56,16 @@ window.onload = function()
 
     requestAnimationFrame(update);
 
+    document.addEventListener("keydown",function(){
+        if(keyDown)
+            keyDown(String.fromCharCode(event.keyCode))
+    }, false);
+
+    document.addEventListener("keyup",function(){
+        if(keyUp)
+            keyUp(String.fromCharCode(event.keyCode))
+    }, false);
+
     canvas.addEventListener('mousemove', function(evt)
     {
         var mousePos = getMousePos(canvas, evt);

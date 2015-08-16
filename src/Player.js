@@ -3,12 +3,27 @@ function Player(x,y)
     Sprite.call(this, x, y, 'assets/player.png');
     this.physics = true;
 
+    this.walkSpeed = 400;
     this.elapsed = 0;
 
 };
 
 Player.prototype = Object.create(Sprite.prototype);
 
+Player.prototype.move = function(dir)
+{
+    this.velocity.x = dir * this.walkSpeed;
+};
+
+Player.prototype.stop = function(dir)
+{
+    this.velocity.x = 0;
+};
+
+Player.prototype.jump = function()
+{
+    this.velocity.y = -500;
+};
 
 Player.prototype.update = function(deltaSeconds){
     Sprite.prototype.update.call(this, deltaSeconds);

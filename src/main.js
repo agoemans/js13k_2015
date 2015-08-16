@@ -43,3 +43,13 @@ function mouseMove(x,y)
 {
     activeState.mouseMove(x,y);
 }
+
+function keyDown(key)
+{
+    activeState.keyDown(key);
+}
+
+function keyUp(key)
+{
+    activeState.keyUp(key);
+}

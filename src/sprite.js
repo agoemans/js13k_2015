@@ -37,26 +37,53 @@ Sprite.prototype.update = function(deltaSeconds)
         var y = this.y;
         var totalSteps = 20;
         var steps = totalSteps;
-
+        var progress = 0;
         this.velocity.y += this.gravity*elapsed;
+        var velX = this.velocity.x;
+        var velY = this.velocity.y;
 
         for (var i = 0; i < totalSteps; i++)
         {
-            x += this.velocity.x * elapsed / totalSteps;
             y += this.velocity.y * elapsed / totalSteps;
 
-            var sides = Level.instance.tileAt(x , y) || Level.instance.tileAt(x + this.width, y)
-                || Level.instance.tileAt(x, y + this.height) || Level.instance.tileAt(x + this.width , y + this.height);
-            if (sides)
+            var colliding = false;
+            if(this.velocity.y < 0)
+                colliding = Level.instance.tileAt(x + this.width/2 , y);
+            else
+                colliding = Level.instance.tileAt(x + this.width/2, y + this.height);
+
+            if (colliding)
             {
+                this.velocity.y = 0;
                 steps = i;
                 break;
             }
         }
 
-        var progress = elapsed * steps / totalSteps;
-        this.x += this.velocity.x * progress;
-        this.y += this.velocity.y * progress;
+        progress = elapsed * steps / totalSteps;
+        this.y += velY * progress;
+
+        steps = totalSteps;
+        for (var i = 0; i < totalSteps; i++)
+        {
+            x += this.velocity.x * elapsed / totalSteps;
+
+            var colliding = false;
+            if(this.velocity.x < 0)
+                colliding = Level.instance.tileAt(x , y + this.height/2);
+            else
+                colliding = Level.instance.tileAt(x + this.width, y + this.height/2);
+
+            if (colliding)
+            {
+                this.velocity.x = 0;
+                steps = i;
+                break;
+            }
+        }
+
+        progress = elapsed * steps / totalSteps;
+        this.x += velX * progress;
     }
 };
 
