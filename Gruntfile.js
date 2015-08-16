@@ -42,7 +42,7 @@ module.exports = function(grunt) {
 			},
 			compressed: {
 				files: {
-					"src/css/**/*.css": "build/style.css"
+					"css/**/*.css": "build/style.css"
 				},
 				compress: true,
 			}
@@ -104,7 +104,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('default', ['watch']);
-	grunt.registerTask('build', ['uglify:development', 'less:development', 'htmlmin:development']);
-	grunt.registerTask('build-compress', ['uglify:compressed', 'less:compressed', 'htmlmin:compressed', 'compress:main', 'sizecheck']);
+	grunt.registerTask('build', ['uglify:development', 'htmlmin:development']);
+	grunt.registerTask('build-compress', ['uglify:compressed', 'htmlmin:compressed', 'compress:main', 'sizecheck']);
 
 };
