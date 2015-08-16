@@ -16,7 +16,7 @@ Game.prototype.leave = function()
 };
 
 Game.prototype.update = function(deltaSeconds){
-    State.update.call(this, deltaSeconds);
+    State.prototype.update.call(this, deltaSeconds);
 };
 
 Game.prototype.render = function(context){

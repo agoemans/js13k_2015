@@ -8,9 +8,16 @@ Menu.prototype = Object.create(State.prototype);
 Menu.prototype.enter = function()
 {
     State.prototype.enter.call(this);
-    var spr = new Sprite(50, 100, "assets/foot.png");
-    var text = new Text(350, 200, 30, "Roboto Thin", "Hihi");
-    this.add(spr);
+    var text = new Text(canvasWidth/2 - 250, 100, 120, "Roboto Thin", "Reversed");
+    this.add(text);
+
+    this.playButton = new Text(canvasWidth/2 - 50, canvasHeight/2 - 60, 60, "Roboto Thin", "Play");
+    this.add(this.playButton);
+    this.playButton.onClick = function(){
+        goto("game");
+    };
+
+    text = new Text(canvasWidth/2 - 130, canvasHeight - 40, 20, "Roboto Thin", "by David & Amy Goemans");
     this.add(text);
 };
 

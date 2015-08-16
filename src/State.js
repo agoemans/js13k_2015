@@ -1,6 +1,7 @@
 function State()
 {
     this.renderList = [];
+    this.currentMouseOver = null;
 };
 
 State.prototype = Object.create(Object.prototype);
@@ -42,23 +43,55 @@ State.prototype.render = function(context){
 
 State.prototype.mouseUp = function(x,y)
 {
-    this.renderList.forEach(function(obj){
-        obj.render(context);
-    });
+    for (var i = this.renderList.length-1; i >= 0; i--)
+    {
+        var obj = this.renderList[i]
+        if (obj.contains(x, y))
+        {
+            obj.mouseUp();
+            return;
+        }
+    }
 };
 
 State.prototype.mouseDown = function(x,y)
 {
-    this.renderList.forEach(function(obj){
-        obj.render(context);
-    });
+    for (var i = this.renderList.length-1; i >= 0; i--)
+    {
+        var obj = this.renderList[i]
+        if (obj.contains(x, y))
+        {
+            obj.mouseDown();
+            return;
+        }
+    }
 };
 
 State.prototype.mouseMove = function(x,y)
 {
-    this.renderList.forEach(function(obj){
-        obj.render(context);
-    });
+    if(this.currentMouseOver)
+    {
+        if(this.currentMouseOver.contains(x,y))
+        {
+            return;
+        }
+        else
+        {
+            this.currentMouseOver.mouseOut();
+            this.currentMouseOver = null;
+        }
+    }
+
+    for (var i = this.renderList.length-1; i >= 0; i--)
+    {
+        var obj = this.renderList[i];
+        if (obj.contains(x, y))
+        {
+            obj.mouseOver();
+            this.currentMouseOver = obj;
+            return;
+        }
+    }
 };
 
 ctor(State);

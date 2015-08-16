@@ -1,5 +1,7 @@
 function Sprite(x,y,image)
 {
+    GameObject.call(this, x, y);
+
     this.loaded = false;
     if (typeof image === "string")
     {
@@ -18,8 +20,6 @@ function Sprite(x,y,image)
         this.image = image;
         this.loaded = true;
     }
-
-    GameObject.call(this, x, y);
 };
 
 Sprite.prototype = Object.create(GameObject.prototype);
