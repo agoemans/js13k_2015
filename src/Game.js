@@ -25,9 +25,19 @@ Game.prototype.update = function(deltaSeconds){
     this.level.update(deltaSeconds);
 };
 
-Game.prototype.render = function(context){
+Game.prototype.render = function(context)
+{
+    if(this.level.player)
+    {
+        var width = game.width;
+        var steps = Math.floor(this.level.player.x/width);
+        context.setTransform(1,0,0,1,-steps*width,0);
+    }
+
     this.level.render(context);
     State.prototype.render.call(this, context);
+
+    context.setTransform(1,0,0,1,0,0);
 };
 
 Game.prototype.mouseMove = function(x,y){
