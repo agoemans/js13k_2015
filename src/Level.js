@@ -93,11 +93,12 @@ Level.prototype.addTile = function(char, x, y)
             object.onGoalReached = this.levelComplete;
             break;
         case '^':
-            object = new Spike(pX, pY, "assets/spike_top.png");
+            object = new Spike(pX, pY, "assets/spike.png");
+            object.flipY = true;
             object.onCollide = this.levelFailed;
             break;
         case '+':
-            object = new Spike(pX, pY, "assets/spike_bottom.png");
+            object = new Spike(pX, pY, "assets/spike.png");
             object.onCollide = this.levelFailed;
             break;
         case 'S':
