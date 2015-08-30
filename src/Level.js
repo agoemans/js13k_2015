@@ -24,7 +24,7 @@ Level.prototype = Object.create(Object.prototype);
 
 Level.prototype.levelLoaded = function(data)
 {
-    this.tiles=data;
+    this.tiles = data;
     this.processLevel();
 }
 
@@ -34,8 +34,8 @@ Level.prototype.processFileData = function(data)
     var mainlist = [];
     var i;
     templist = data.split("\n");
-    for (i=0; i< templist.length; i++){
-        mainlist.push(templist[i].split(""));
+    for (i=0; i < templist.length; i++){
+        mainlist.push(templist[i].trim().split(""));
     }
     this.levelLoaded(mainlist);
 
@@ -114,7 +114,7 @@ Level.prototype.levelComplete = function()
     // TODO:
     // Show win popup
     //
-    goto("game", { level: 'assets/level1.txt' });
+    goto("game", { level: 'assets/level2.txt' });
 };
 
 Level.prototype.tileAt = function(x,y)
@@ -144,7 +144,8 @@ Level.prototype.removeAt = function(x,y)
 
 
 Level.prototype.update = function(deltaSeconds){
-    if(this.player) this.player.update(deltaSeconds);
+    if(this.player)
+        this.player.update(deltaSeconds);
 };
 
 Level.prototype.render = function(context) {
@@ -157,7 +158,8 @@ Level.prototype.render = function(context) {
         obj.render(context);
     });
 
-    this.player.render(context);
+    if(this.player)
+        this.player.render(context);
 };
 
 ctor(Text);

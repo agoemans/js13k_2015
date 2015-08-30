@@ -1,4 +1,4 @@
-function loadlFile(cb, ctx, file){
+function loadFile(cb, ctx, file){
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onload = function(){
 		var level = xmlhttp.responseText;
