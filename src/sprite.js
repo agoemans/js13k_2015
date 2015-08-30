@@ -42,6 +42,26 @@ Sprite.prototype.resetCollision = function()
     this.colliding.top = this.colliding.bottom = this.colliding.left = this.colliding.right = false;
 };
 
+Sprite.prototype.overlap = function(x,y,width,height)
+{
+    //return this.collides;
+    // TODO; fix this
+    if(!this.collides)
+        return false;
+
+
+    var left = this.x;
+    var right = this.x + this.width;
+    var xOver = (left >= x && left <= x + width) || (right >= x && right <= x + width)
+        || (left <= x && right >= x) || (left <= x+width && right >= x+width);
+
+    var top = this.y;
+    var bottom = this.y + this.height;
+    var yOver = (top >= y && top <= y + height) || (bottom >= y && bottom <= y + height);
+
+    return xOver && yOver;
+};
+
 Sprite.prototype.doCollision = function(elapsed)
 {
     var totalSteps = 10;
@@ -63,17 +83,29 @@ Sprite.prototype.doCollision = function(elapsed)
         {
             var tl = Level.instance.tileAt(x , y);
             var tr = Level.instance.tileAt(x + this.width-1, y);
-            this.colliding.top = (tl && tl.collides) || (tr && tr.collides);
-            collidingObjects.push(tl);
-            collidingObjects.push(tr);
+            var tlOverlap = tl && tl.overlap(x,y,this.width,this.height);
+            var trOverlap = tr && tr.overlap(x,y,this.width,this.height);
+
+            if(tlOverlap)
+                collidingObjects.push(tl);
+            if(trOverlap)
+                collidingObjects.push(tr);
+
+            this.colliding.top = (tlOverlap || trOverlap);
         }
         else if(this.velocity.y > 0)
         {
-            var bl = Level.instance.tileAt(x , y + this.height);
+            var bl = Level.instance.tileAt(x , y + this.height-1);
             var br = Level.instance.tileAt(x + this.width-1, y + this.height-1);
-            this.colliding.bottom = (bl && bl.collides) || (br && br.collides);
-            collidingObjects.push(bl);
-            collidingObjects.push(br);
+            var blOverlap = bl && bl.overlap(x,y,this.width,this.height);
+            var brOverlap = br && br.overlap(x,y,this.width,this.height);
+
+            if(blOverlap)
+                collidingObjects.push(bl);
+            if(brOverlap)
+                collidingObjects.push(br);
+
+            this.colliding.bottom = (blOverlap || brOverlap);
         }
 
         if (this.colliding.bottom || this.colliding.top)
@@ -86,6 +118,7 @@ Sprite.prototype.doCollision = function(elapsed)
 
     progress = elapsed * steps / totalSteps;
     this.y += velY * progress;
+    y = this.y;
 
     steps = totalSteps;
 
@@ -96,15 +129,32 @@ Sprite.prototype.doCollision = function(elapsed)
 
         if(this.velocity.x < 0)
         {
-            var l = Level.instance.tileAt(x , y + this.height/2);
-            this.colliding.left = (l && l.collides);
-            collidingObjects.push(l);
+            var tl = Level.instance.tileAt(x, y);
+            var bl = Level.instance.tileAt(x, y + this.height-1);
+            var tlOverlap = tl && tl.overlap(x,y,this.width,this.height);
+            var blOverlap = bl && bl.overlap(x,y,this.width,this.height);
+
+            if(tlOverlap)
+                collidingObjects.push(tl);
+            if(blOverlap)
+                collidingObjects.push(bl);
+
+            this.colliding.left = (tlOverlap || blOverlap);
         }
         else if(this.velocity.x > 0)
         {
-            var r = Level.instance.tileAt(x + this.width-1, y + this.height/2);
-            this.colliding.right = (r && r.collides);
-            collidingObjects.push(r);
+            var tr = Level.instance.tileAt(x + this.width-1, y);
+            var br = Level.instance.tileAt(x + this.width-1, y + this.height-1);
+
+            var trOverlap = tr && tr.overlap(x,y,this.width,this.height);
+            var brOverlap = br && br.overlap(x,y,this.width,this.height);
+
+            if(trOverlap)
+                collidingObjects.push(tr);
+            if(brOverlap)
+                collidingObjects.push(br);
+
+            this.colliding.right = (trOverlap || brOverlap);
         }
 
         if (this.colliding.left || this.colliding.right)

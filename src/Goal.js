@@ -13,10 +13,11 @@ Goal.prototype.collide = function(other)
     // - Show victory particles/animation
     // - Then call goalCleared
     console.log("Hit other: " + typeof other);
-    this.destroy();
+    this.collides = false;
 
     setTimeout(function()
     {
+        this.destroy();
         if(this.onGoalReached) this.onGoalReached();
     }.bind(this), 1000);
 
