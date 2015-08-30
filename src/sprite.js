@@ -59,7 +59,7 @@ Sprite.prototype.doCollision = function(elapsed)
         if(this.velocity.y < 0)
         {
             var tl = Level.instance.tileAt(x , y);
-            var tr = Level.instance.tileAt(x + this.width, y);
+            var tr = Level.instance.tileAt(x + this.width-1, y);
             this.colliding.top = !!(tl || tr);
             collidingObjects.push(tl);
             collidingObjects.push(tr);
@@ -67,7 +67,7 @@ Sprite.prototype.doCollision = function(elapsed)
         else if(this.velocity.y > 0)
         {
             var bl = Level.instance.tileAt(x , y + this.height);
-            var br = Level.instance.tileAt(x + this.width, y + this.height);
+            var br = Level.instance.tileAt(x + this.width-1, y + this.height-1);
             this.colliding.bottom = !!(bl || br);
             collidingObjects.push(bl);
             collidingObjects.push(br);
@@ -99,7 +99,7 @@ Sprite.prototype.doCollision = function(elapsed)
         }
         else if(this.velocity.x > 0)
         {
-            var r = Level.instance.tileAt(x + this.width, y + this.height/2);
+            var r = Level.instance.tileAt(x + this.width-1, y + this.height/2);
             this.colliding.right = !!(r);
             collidingObjects.push(r);
         }
