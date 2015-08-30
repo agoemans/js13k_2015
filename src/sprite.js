@@ -26,7 +26,10 @@ function Sprite(x,y,image)
     this.flipY = false;
     this.flipX = false;
 
+    this.collides = true;
     this.colliding = { top: false, bottom: false, left: false, right: false };
+    this.onCollide = null;
+
     this.physics = false;
     this.gravity = 8500;
     this.velocity = { x: 0, y: 0 };
@@ -41,7 +44,7 @@ Sprite.prototype.resetCollision = function()
 
 Sprite.prototype.doCollision = function(elapsed)
 {
-    var totalSteps = 20;
+    var totalSteps = 10;
     var x = this.x;
     var y = this.y;
     var steps = totalSteps;
@@ -60,7 +63,7 @@ Sprite.prototype.doCollision = function(elapsed)
         {
             var tl = Level.instance.tileAt(x , y);
             var tr = Level.instance.tileAt(x + this.width-1, y);
-            this.colliding.top = !!(tl || tr);
+            this.colliding.top = (tl && tl.collides) || (tr && tr.collides);
             collidingObjects.push(tl);
             collidingObjects.push(tr);
         }
@@ -68,7 +71,7 @@ Sprite.prototype.doCollision = function(elapsed)
         {
             var bl = Level.instance.tileAt(x , y + this.height);
             var br = Level.instance.tileAt(x + this.width-1, y + this.height-1);
-            this.colliding.bottom = !!(bl || br);
+            this.colliding.bottom = (bl && bl.collides) || (br && br.collides);
             collidingObjects.push(bl);
             collidingObjects.push(br);
         }
@@ -94,13 +97,13 @@ Sprite.prototype.doCollision = function(elapsed)
         if(this.velocity.x < 0)
         {
             var l = Level.instance.tileAt(x , y + this.height/2);
-            this.colliding.left = !!(l);
+            this.colliding.left = (l && l.collides);
             collidingObjects.push(l);
         }
         else if(this.velocity.x > 0)
         {
             var r = Level.instance.tileAt(x + this.width-1, y + this.height/2);
-            this.colliding.right = !!(r);
+            this.colliding.right = (r && r.collides);
             collidingObjects.push(r);
         }
 
@@ -113,7 +116,7 @@ Sprite.prototype.doCollision = function(elapsed)
     }
 
     collidingObjects.forEach(function(other){
-       if(other) other.collide(this);
+       if(other && other.collides) other.collide(this);
     });
 
     progress = elapsed * steps / totalSteps;
@@ -122,7 +125,7 @@ Sprite.prototype.doCollision = function(elapsed)
 
 Sprite.prototype.collide = function()
 {
-
+    if(this.onCollide) this.onCollide();
 };
 
 Sprite.prototype.destroy = function()
@@ -137,6 +140,7 @@ Sprite.prototype.update = function(deltaSeconds)
     {
         var elapsed = Math.min(deltaSeconds,0.016);
         this.velocity.y += this.gravity*elapsed;
+
         this.resetCollision();
         this.doCollision(deltaSeconds);
     }

@@ -92,8 +92,17 @@ Level.prototype.addTile = function(char, x, y)
             object = new Goal(pX, pY, "assets/win.png");
             object.onGoalReached = this.levelComplete;
             break;
+        case '^':
+            object = new Spike(pX, pY, "assets/spike_top.png");
+            object.onCollide = this.levelFailed;
+            break;
+        case '+':
+            object = new Spike(pX, pY, "assets/spike_bottom.png");
+            object.onCollide = this.levelFailed;
+            break;
         case 'S':
             this.player = new Player(x*this.tileSize, y*this.tileSize);
+            break;
         default:
             break;
     }
@@ -107,6 +116,20 @@ Level.prototype.addTile = function(char, x, y)
     }
 
     return null;
+};
+
+Level.prototype.levelFailed = function()
+{
+    var levelStr = localStorage['js13_currentLevel'] || 1;
+    var topLevel = parseInt(levelStr);
+
+
+    // TODO:
+    // Show lose popup
+    //
+    setTimeout(function(){
+        goto("game", { level: topLevel });
+    }.bind(this), 500);
 };
 
 Level.prototype.levelComplete = function()
