@@ -14,7 +14,7 @@ Menu.prototype.enter = function()
     this.playButton = new Text(canvasWidth/2 - 50, canvasHeight/2 - 60, 60, "Roboto Thin", "Play");
     this.add(this.playButton);
     this.playButton.onClick = function(){
-        goto("game");
+        goto("game", { level: 'assets/level1.txt' });
     };
 
     text = new Text(canvasWidth/2 - 130, canvasHeight - 40, 20, "Roboto Thin", "by David & Amy Goemans");

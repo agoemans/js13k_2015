@@ -21,12 +21,19 @@ function Sprite(x,y,image)
         this.loaded = true;
     }
 
+
+    this.colliding = { top: false, bottom: false, left: false, right: false };
     this.physics = false;
     this.gravity = 8500;
     this.velocity = { x: 0, y: 0 };
 };
 
 Sprite.prototype = Object.create(GameObject.prototype);
+
+Sprite.prototype.resetCollision = function()
+{
+    this.colliding.top = this.colliding.bottom = this.colliding.left = this.colliding.right = false;
+};
 
 Sprite.prototype.update = function(deltaSeconds)
 {
@@ -41,18 +48,18 @@ Sprite.prototype.update = function(deltaSeconds)
         this.velocity.y += this.gravity*elapsed;
         var velX = this.velocity.x;
         var velY = this.velocity.y;
+        this.resetCollision();
 
         for (var i = 0; i < totalSteps; i++)
         {
             y += this.velocity.y * elapsed / totalSteps;
 
-            var colliding = false;
             if(this.velocity.y < 0)
-                colliding = Level.instance.tileAt(x + this.width/2 , y);
-            else
-                colliding = Level.instance.tileAt(x + this.width/2, y + this.height);
+                this.colliding.top = !!(Level.instance.tileAt(x , y) || Level.instance.tileAt(x + this.width, y));
+            else if(this.velocity.y > 0)
+                this.colliding.bottom = !!(Level.instance.tileAt(x , y + this.height) || Level.instance.tileAt(x + this.width, y + this.height));
 
-            if (colliding)
+            if (this.colliding.bottom || this.colliding.top)
             {
                 this.velocity.y = 0;
                 steps = i;
@@ -68,13 +75,12 @@ Sprite.prototype.update = function(deltaSeconds)
         {
             x += this.velocity.x * elapsed / totalSteps;
 
-            var colliding = false;
             if(this.velocity.x < 0)
-                colliding = Level.instance.tileAt(x , y + this.height/2);
-            else
-                colliding = Level.instance.tileAt(x + this.width, y + this.height/2);
+                this.colliding.left = !!(Level.instance.tileAt(x , y + this.height/2));
+            else if(this.velocity.x > 0)
+                this.colliding.right = !!(Level.instance.tileAt(x + this.width, y + this.height/2));
 
-            if (colliding)
+            if (this.colliding.left || this.colliding.right)
             {
                 this.velocity.x = 0;
                 steps = i;
