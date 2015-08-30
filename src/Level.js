@@ -111,10 +111,16 @@ Level.prototype.addTile = function(char, x, y)
 
 Level.prototype.levelComplete = function()
 {
+    var levelStr = localStorage['currentLevel'] || 0;
+
+    var topLevel = parseInt(levelStr);
+    topLevel++;
+    localStorage['js13_currentLevel'] = topLevel;
+
     // TODO:
     // Show win popup
     //
-    goto("game", { level: 'assets/level2.txt' });
+    goto("game", { level: topLevel });
 };
 
 Level.prototype.tileAt = function(x,y)

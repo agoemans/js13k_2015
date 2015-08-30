@@ -10,7 +10,8 @@ Game.prototype.enter = function(config)
 {
     State.prototype.enter.call(this, context);
 
-    this.level = new Level(config.level);
+    var levelName = 'assets/level' + config.level + '.txt';
+    this.level = new Level(levelName);
 };
 
 Game.prototype.leave = function()
