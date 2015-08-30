@@ -8,16 +8,7 @@ function Level(file)
     this.enemies = [];
 
     // Sample level
-    this.tiles = [
-        ['_','_','_','_','_','_','_','_','_','_','W','W'],
-        ['_','_','_','_','_','_','_','_','_','_','W','W'],
-        ['_','_','_','_','_','_','_','_','_','_','_','_'],
-        ['_','_','_','_','_','_','_','_','_','_','_','_'],
-        ['_','_','_','_','_','_','_','_','_','_','_','_'],
-        ['_','_','_','_','_','_','W','W','_','_','_','_'],
-        ['_','_','_','_','_','_','W','W','_','_','_','X'],
-        ['S','_','_','_','_','_','W','W','_','_','_','_']
-    ];
+    this.tiles = [];
 
     this.tileObects = [];
 
@@ -25,16 +16,35 @@ function Level(file)
     this.renderList = [];
     this.file = file;
     this.loadLevel(file);
-    this.processLevel();
-
+    
     Level.instance = this;
 };
 
 Level.prototype = Object.create(Object.prototype);
 
+Level.prototype.levelLoaded = function(data)
+{
+    this.tiles=data;
+    this.processLevel();
+}
+
+Level.prototype.processFileData = function(data)
+{
+    var templist = [];
+    var mainlist = [];
+    var i;
+    templist = data.split("\n");
+    for (i=0; i< templist.length; i++){
+        mainlist.push(templist[i].split(""));
+    }
+    this.levelLoaded(mainlist);
+
+}
+
+
 Level.prototype.loadLevel = function(file)
 {
-    //TODO: ajax call, open file, read into tiles
+   loadFile(this.processFileData, this, file);
 };
 
 Level.prototype.processLevel = function()
@@ -108,7 +118,7 @@ Level.prototype.tileAt = function(x,y)
 
 
 Level.prototype.update = function(deltaSeconds){
-    this.player.update(deltaSeconds);
+    if(this.player) this.player.update(deltaSeconds);
 };
 
 Level.prototype.render = function(context) {

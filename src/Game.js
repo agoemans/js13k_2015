@@ -10,7 +10,7 @@ Game.prototype.enter = function()
 {
     State.prototype.enter.call(this, context);
 
-    this.level = new Level('level1');
+    this.level = new Level('assets/level1.txt');
 };
 
 Game.prototype.leave = function()
