@@ -12,6 +12,8 @@ Player.prototype = Object.create(Sprite.prototype);
 
 Player.prototype.move = function(dir)
 {
+    this.flipX = dir < 0;
+
     this.velocity.x = dir * this.walkSpeed;
 };
 
@@ -26,15 +28,14 @@ Player.prototype.jump = function()
         this.velocity.y = -1300 * Math.sign(this.gravity);
 };
 
+Player.prototype.flip = function()
+{
+    this.gravity *= -1;
+    this.flipY = !this.flipY;
+}
+
 Player.prototype.update = function(deltaSeconds){
     Sprite.prototype.update.call(this, deltaSeconds);
-
-    /*this.elapsed += deltaSeconds;
-    if(this.elapsed > 3)
-    {
-        this.velocity.y = -500;
-        this.elapsed = 0;
-    }*/
 };
 
 ctor(Player);

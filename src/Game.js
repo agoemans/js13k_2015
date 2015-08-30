@@ -40,7 +40,7 @@ Game.prototype.keyDown = function(key)
     if( key === ' ')
         this.level.player.jump();
     if( key === 'Q')
-            this.level.player.gravity *= -1;
+            this.level.player.flip();
 };
 
 Game.prototype.keyUp = function(key) {
