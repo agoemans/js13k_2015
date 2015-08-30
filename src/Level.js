@@ -111,7 +111,7 @@ Level.prototype.addTile = function(char, x, y)
 
 Level.prototype.levelComplete = function()
 {
-    var levelStr = localStorage['currentLevel'] || 0;
+    var levelStr = localStorage['js13_currentLevel'] || 1;
 
     var topLevel = parseInt(levelStr);
     topLevel++;
