@@ -78,6 +78,11 @@ Array.prototype.clone = function() {
 
 Math.clamp = function(value, min, max) { return Math.min(Math.max(value,min), max); };
 
+Array.prototype.remove = function(object)
+{
+    this.splice(this.indexOf(object), 1);
+};
+
 function distance(x1, y1, x2, y2)
 {
     return Math.sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2));
@@ -103,6 +108,12 @@ function ctor(func)
 {
     func.prototype.constructor = func;
 }
+
+function inherit(child, parent)
+{
+    child.prototype = Object.create(parent.prototype);
+}
+
 
 function proto(cls)
 {

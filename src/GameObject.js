@@ -4,7 +4,6 @@ function GameObject(x,y)
     this.y = y;
     this.width = 0;
     this.height = 0;
-    console.log("adding game object at: " + x + ", " + y );
 
     this.onClick = null;
     this.onMouseOver = null;

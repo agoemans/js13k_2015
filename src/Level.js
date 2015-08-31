@@ -24,7 +24,7 @@ Level.prototype = Object.create(Object.prototype);
 
 Level.prototype.levelLoaded = function(data)
 {
-    this.tiles=data;
+    this.tiles = data;
     this.processLevel();
 }
 
@@ -34,8 +34,8 @@ Level.prototype.processFileData = function(data)
     var mainlist = [];
     var i;
     templist = data.split("\n");
-    for (i=0; i< templist.length; i++){
-        mainlist.push(templist[i].split(""));
+    for (i=0; i < templist.length; i++){
+        mainlist.push(templist[i].trim().split(""));
     }
     this.levelLoaded(mainlist);
 
@@ -80,30 +80,71 @@ Level.prototype.processLevel = function()
 
 Level.prototype.addTile = function(char, x, y)
 {
-    var imageName = null;
+    var object = null;
+    var pX = x*this.tileSize;
+    var pY = y*this.tileSize;
     switch(char)
     {
         case 'W':
-            imageName = Math.random() < 0.5 ? "assets/wall.png" : "assets/wall2.png";
+            object = new Sprite(pX, pY,Math.random() < 0.5 ? "assets/wall.png" : "assets/wall2.png");
             break;
         case 'X':
-            imageName = "assets/win.png";
+            object = new Goal(pX, pY, "assets/win.png");
+            object.onGoalReached = this.levelComplete;
+            break;
+        case '^':
+            object = new Spike(pX, pY, "assets/spike.png");
+            object.flipY = true;
+            object.onCollide = this.levelFailed;
+            break;
+        case '+':
+            object = new Spike(pX, pY + 44, "assets/spike.png");
+            object.onCollide = this.levelFailed;
             break;
         case 'S':
             this.player = new Player(x*this.tileSize, y*this.tileSize);
+            break;
         default:
             break;
     }
 
-    if(imageName)
+    if(object)
     {
-        var sprite = new Sprite(x*this.tileSize, y*this.tileSize,imageName);
-        this.renderList.push(sprite);
-        this.tileObects[y][x] = sprite;
-        return sprite;
+
+        this.renderList.push(object);
+        this.tileObects[y][x] = object;
+        return object;
     }
 
     return null;
+};
+
+Level.prototype.levelFailed = function()
+{
+    var levelStr = localStorage['js13_currentLevel'] || 1;
+    var topLevel = parseInt(levelStr);
+
+
+    // TODO:
+    // Show lose popup
+    //
+    setTimeout(function(){
+        goto("game", { level: topLevel });
+    }.bind(this), 500);
+};
+
+Level.prototype.levelComplete = function()
+{
+    var levelStr = localStorage['js13_currentLevel'] || 1;
+
+    var topLevel = parseInt(levelStr);
+    topLevel++;
+    localStorage['js13_currentLevel'] = topLevel;
+
+    // TODO:
+    // Show win popup
+    //
+    goto("game", { level: topLevel });
 };
 
 Level.prototype.tileAt = function(x,y)
@@ -116,9 +157,25 @@ Level.prototype.tileAt = function(x,y)
     return this.tileObects[tileY][tileX];
 };
 
+Level.prototype.removeAt = function(x,y)
+{
+    var tileX = Math.floor(x/this.tileSize);
+    var tileY = Math.floor(y/this.tileSize);
+    if(tileY >= this.tileObects.length || tileX > this.tileObects[tileY].length)
+        return null;
+
+    var object = this.tileObects[tileY][tileX];
+    this.tileObects[tileY][tileX] = null;
+
+    this.renderList.remove(object);
+
+    return object;
+};
+
 
 Level.prototype.update = function(deltaSeconds){
-    if(this.player) this.player.update(deltaSeconds);
+    if(this.player)
+        this.player.update(deltaSeconds);
 };
 
 Level.prototype.render = function(context) {
@@ -131,7 +188,8 @@ Level.prototype.render = function(context) {
         obj.render(context);
     });
 
-    this.player.render(context);
+    if(this.player)
+        this.player.render(context);
 };
 
 ctor(Text);

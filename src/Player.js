@@ -5,19 +5,19 @@ function Player(x,y)
 
     this.walkSpeed = 400;
     this.elapsed = 0;
-
+    this.moveDirX = 0;
 };
 
 Player.prototype = Object.create(Sprite.prototype);
 
 Player.prototype.move = function(dir)
 {
-    this.velocity.x = dir * this.walkSpeed;
+    this.moveDirX = dir;
 };
 
-Player.prototype.stop = function(dir)
+Player.prototype.stop = function()
 {
-    this.velocity.x = 0;
+    this.moveDirX = 0;
 };
 
 Player.prototype.jump = function()
@@ -26,15 +26,19 @@ Player.prototype.jump = function()
         this.velocity.y = -1300 * Math.sign(this.gravity);
 };
 
-Player.prototype.update = function(deltaSeconds){
-    Sprite.prototype.update.call(this, deltaSeconds);
+Player.prototype.flip = function()
+{
+    this.gravity *= -1;
+    this.flipY = !this.flipY;
+}
 
-    /*this.elapsed += deltaSeconds;
-    if(this.elapsed > 3)
-    {
-        this.velocity.y = -500;
-        this.elapsed = 0;
-    }*/
+Player.prototype.update = function(deltaSeconds){
+
+    this.flipX = this.moveDirX < 0;
+    this.velocity.x = this.moveDirX * this.walkSpeed;
+
+
+    Sprite.prototype.update.call(this, deltaSeconds);
 };
 
 ctor(Player);
