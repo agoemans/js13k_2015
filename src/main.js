@@ -4,9 +4,13 @@
 
 var states = {};
 var activeState = null;
+var gameWidth = 0;
+var gameHeight = 0;
 
-function initGame()
+function initGame(w,h)
 {
+    gameWidth = w;
+    gameHeight = h;
     states.menu = new Menu();
     states.game = new Game();
     goto("menu");

@@ -7,6 +7,10 @@ function Level(file)
     this.player = null;
     this.enemies = [];
 
+    this.width = 0;
+    this.height = 0;
+
+
     // Sample level
     this.tiles = [];
 
@@ -76,6 +80,9 @@ Level.prototype.processLevel = function()
             this.addTile(tile,newX, newY);
         }
     }
+
+    this.width = this.tilesX * this.tileSize;
+    this.height = this.tilesY * this.tileSize;
 };
 
 Level.prototype.addTile = function(char, x, y)
@@ -121,6 +128,7 @@ Level.prototype.addTile = function(char, x, y)
 
 Level.prototype.levelFailed = function()
 {
+    Level.instance.player.die();
     var levelStr = localStorage['js13_currentLevel'] || 1;
     var topLevel = parseInt(levelStr);
 

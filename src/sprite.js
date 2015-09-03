@@ -1,6 +1,15 @@
-function Sprite(x,y,image)
+function Sprite(x,y,image,frameCount,animCount)
 {
     GameObject.call(this, x, y);
+
+    this.frameCount = frameCount || 1;
+    this.animCount = animCount || 1;
+    this.frame = 0;
+    this.time = 0;
+    this.fps = 15;
+    this.animating = false;
+    this.animation = 0;
+    this.loop = false;
 
     this.onDestroyed = null;
     this.loaded = false;
@@ -9,12 +18,11 @@ function Sprite(x,y,image)
         var img = new Image();
         img.src = image;
         this.image = img;
-        var that = this;
         this.image.onload = function(){
-            that.width = that.image.width;
-            that.height = that.image.height;
-            that.loaded = true;
-        };
+            this.width = this.image.width/this.frameCount;
+            this.height = this.image.height/this.animCount;
+            this.loaded = true;
+        }.bind(this);
     }
     else if (typeof image === "object")
     {
@@ -184,6 +192,23 @@ Sprite.prototype.destroy = function()
     if(this.onDestroyed)this.onDestroyed(this);
 };
 
+Sprite.prototype.play = function(animation, loop, fps)
+{
+    if(this.animation != animation)
+        this.time = 0;
+
+    this.loop = loop === undefined ? this.loop : loop;
+
+    this.animation = animation || 0;
+    this.fps = fps || this.fps;
+    this.animating = true;
+};
+
+Sprite.prototype.stop = function()
+{
+    this.animating = false;
+};
+
 Sprite.prototype.update = function(deltaSeconds)
 {
     if(this.physics)
@@ -193,6 +218,16 @@ Sprite.prototype.update = function(deltaSeconds)
 
         this.resetCollision();
         this.doCollision(deltaSeconds);
+    }
+
+    if(this.animating)
+    {
+        this.time += deltaSeconds;
+        this.frame = Math.floor(this.fps *this.time);
+        if(this.loop)
+            this.frame = this.frame%this.frameCount;
+        else
+            this.frame = Math.min(this.frameCount-1, this.frame);
     }
 };
 
@@ -209,7 +244,7 @@ Sprite.prototype.render = function(context){
     }
 
     if(this.loaded)
-        context.drawImage(this.image, this.x, this.y, this.width, this.height);
+        context.drawImage(this.image, this.frame*this.width, this.animation*this.height, this.width, this.height, this.x, this.y, this.width, this.height);
 
     if(this.flipY || this.flipX)
         context.restore();
