@@ -11,6 +11,8 @@ function Sprite(x,y,image,frameCount,animCount)
     this.animation = 0;
     this.loop = false;
 
+    this.visible = true;
+
     this.onDestroyed = null;
     this.loaded = false;
     if (typeof image === "string")
@@ -232,6 +234,9 @@ Sprite.prototype.update = function(deltaSeconds)
 };
 
 Sprite.prototype.render = function(context){
+
+    if(!this.visible)
+        return;
 
     if(this.flipY || this.flipX)
     {

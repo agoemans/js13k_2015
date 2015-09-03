@@ -60,6 +60,9 @@ Game.prototype.keyDown = function(key)
 };
 
 Game.prototype.keyUp = function(key) {
+    if(!this.level.player)
+        return;
+
     if(key === "A" || key === "D")
         this.level.player.stop();
 };

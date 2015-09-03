@@ -22,7 +22,9 @@ Player.prototype.move = function(dir)
 
 Player.prototype.die = function()
 {
+    this.physics = false;
     this.inputLocked = true;
+    this.visible = false;
     this.stop();
 }
 
@@ -45,6 +47,9 @@ Player.prototype.jump = function()
 
 Player.prototype.flip = function()
 {
+    if(this.inputLocked)
+        return;
+
     this.gravity *= -1;
     this.flipY = !this.flipY;
 }

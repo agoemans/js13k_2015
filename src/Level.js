@@ -3,6 +3,7 @@ function Level(file)
     this.tileSize = 64;
     this.xOffset = 1;
     this.yOffset = 1;
+    this.respawnTime = 1;
 
     this.player = null;
     this.enemies = [];
@@ -20,7 +21,9 @@ function Level(file)
     this.renderList = [];
     this.file = file;
     this.loadLevel(file);
-    
+
+    this.particles = new ParticleEmitter(0,0,this.respawnTime);
+
     Level.instance = this;
 };
 
@@ -109,7 +112,9 @@ Level.prototype.addTile = function(char, x, y)
             object.onCollide = this.levelFailed;
             break;
         case 'S':
-            this.player = new Player(x*this.tileSize, y*this.tileSize);
+            setTimeout(function(){
+                this.player = new Player(pX, pY - 10);
+            }.bind(this), 500);
             break;
         default:
             break;
@@ -128,6 +133,7 @@ Level.prototype.addTile = function(char, x, y)
 
 Level.prototype.levelFailed = function()
 {
+    Level.instance.particles.emit(Level.instance.player.x + 20,Level.instance.player.y + 32);
     Level.instance.player.die();
     var levelStr = localStorage['js13_currentLevel'] || 1;
     var topLevel = parseInt(levelStr);
@@ -138,7 +144,7 @@ Level.prototype.levelFailed = function()
     //
     setTimeout(function(){
         goto("game", { level: topLevel });
-    }.bind(this), 500);
+    }.bind(this), Level.instance.respawnTime*1000);
 };
 
 Level.prototype.levelComplete = function()
@@ -184,6 +190,8 @@ Level.prototype.removeAt = function(x,y)
 Level.prototype.update = function(deltaSeconds){
     if(this.player)
         this.player.update(deltaSeconds);
+
+    this.particles && this.particles.update(deltaSeconds);
 };
 
 Level.prototype.render = function(context) {
@@ -198,6 +206,8 @@ Level.prototype.render = function(context) {
 
     if(this.player)
         this.player.render(context);
+
+    this.particles && this.particles.render(context);
 };
 
 ctor(Text);
