@@ -16,7 +16,7 @@ Player.prototype.move = function(dir)
     if(!this.inputLocked)
     {
         this.moveDirX = dir;
-        this.play(0, true, 10);
+        this.play(0, true, 15);
     }
 };
 
