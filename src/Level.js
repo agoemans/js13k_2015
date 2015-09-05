@@ -24,6 +24,8 @@ function Level(file)
 
     this.particles = new ParticleEmitter(0, 0, this.respawnTime);
 
+    game.audio.add('win',1,[[0,,0.52,0.39,0.27,0.35,,0.12,,0.14,0.56,0.2085,0.673,,,,,,1,,,,,0.29]]);
+
     Level.instance = this;
 };
 
@@ -153,6 +155,7 @@ Level.prototype.levelFailed = function ()
 
 Level.prototype.levelComplete = function (x,y)
 {
+    game.audio.play('win');
     Level.instance.particles.emit(x, y, '#AAFFAA');
     var levelStr = localStorage['js13_currentLevel'] || 1;
 

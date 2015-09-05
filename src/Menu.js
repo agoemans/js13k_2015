@@ -7,6 +7,8 @@ Menu.prototype = Object.create(State.prototype);
 
 Menu.prototype.enter = function ()
 {
+    game.audio.add('start',1,[[2,,0.18,,,0.23,,,,,,,,,,,,,1,,,0.1,,0.29]]);
+
     State.prototype.enter.call(this);
     var text = new Text(canvasWidth / 2 - 250, 100, 120, "Trebuchet MS", "Reversed");
     this.add(text);
@@ -18,6 +20,7 @@ Menu.prototype.enter = function ()
         var levelStr = localStorage['js13_currentLevel'] || 1;
         var topLevel = parseInt(levelStr);
 
+        game.audio.play('start');
         game.goto("game", {level: topLevel});
     };
 

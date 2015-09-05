@@ -15,6 +15,7 @@ var game = (function(){
     {
         module.width = w;
         module.height = h;
+        module.audio = new AudioPlayer();
         module.states.menu = new Menu();
         module.states.game = new Game();
         module.states.tutorial = new Tutorial();
