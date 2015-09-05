@@ -7,6 +7,7 @@ var game = (function(){
     
     module.states = {};
     module.activeState = null;
+    module.overlay = null;
     module.width = 0;
     module.height = 0;
 
@@ -16,17 +17,24 @@ var game = (function(){
         module.height = h;
         module.states.menu = new Menu();
         module.states.game = new Game();
+        module.states.tutorial = new Tutorial();
         module.goto("menu");
     };
 
     module.updateGame = function(deltaSeconds)
     {
         module.activeState.update(deltaSeconds);
+
+        if(module.overlay)
+            module.overlay.update(deltaSeconds);
     };
 
     module.renderGame = function(context)
     {
         module.activeState.render(context);
+
+        if(module.overlay)
+            module.overlay.render(context);
     };
 
     module.goto = function(state, config)
@@ -36,29 +44,50 @@ var game = (function(){
         module.activeState.enter(config);
     };
 
+    module.popup = function(state, config)
+    {
+        module.overlay = module.states[state];
+        module.overlay.enter(config);
+    };
+
     module.mouseUp = function(x,y)
     {
-        module.activeState.mouseUp(x,y);
+        if(module.overlay)
+        {
+            module.overlay.leave();
+            module.overlay = null;
+        }
+        else
+            module.activeState.mouseUp(x,y);
     };
 
     module.mouseDown = function(x,y)
     {
-        module.activeState.mouseDown(x,y);
+        if(!module.overlay)
+            module.activeState.mouseDown(x,y);
     };
 
     module.mouseMove = function(x,y)
     {
-        module.activeState.mouseMove(x,y);
+        if(!module.overlay)
+            module.activeState.mouseMove(x,y);
     };
 
     module.keyDown = function(key)
     {
-        module.activeState.keyDown(key);
+        if(!module.overlay)
+            module.activeState.keyDown(key);
     };
 
     module.keyUp = function(key)
     {
-        module.activeState.keyUp(key);
+        if(module.overlay)
+        {
+            module.overlay.leave();
+            module.overlay = null;
+        }
+        else
+            module.activeState.keyUp(key);
     };
 
     return module;

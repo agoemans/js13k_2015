@@ -8,10 +8,10 @@ Menu.prototype = Object.create(State.prototype);
 Menu.prototype.enter = function ()
 {
     State.prototype.enter.call(this);
-    var text = new Text(canvasWidth / 2 - 250, 100, 120, "Roboto Thin", "Reversed");
+    var text = new Text(canvasWidth / 2 - 250, 100, 120, "Trebuchet MS", "Reversed");
     this.add(text);
 
-    this.playButton = new Text(canvasWidth / 2 - 50, canvasHeight / 2 - 60, 60, "Roboto Thin", "Play");
+    this.playButton = new Text(canvasWidth / 2 - 50, canvasHeight / 2 - 60, 60, "Trebuchet MS ", "Play");
     this.add(this.playButton);
     this.playButton.onClick = function ()
     {
@@ -21,7 +21,7 @@ Menu.prototype.enter = function ()
         game.goto("game", {level: topLevel});
     };
 
-    text = new Text(canvasWidth / 2 - 130, canvasHeight - 40, 20, "Roboto Thin", "by David & Amy Goemans");
+    text = new Text(canvasWidth / 2 - 130, canvasHeight - 40, 20, "Trebuchet MS", "by David & Amy Goemans");
     this.add(text);
 };
 

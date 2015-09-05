@@ -66,7 +66,7 @@ Level.prototype.processLevel = function ()
         for (var x = 0; x < this.tilesX; x++)
         {
             if (x === 0 || x === this.tilesX - 1 || y === 0 || y === this.tilesY - 1)
-                this.addTile('W', x, y);
+                this.addTile('Y', x, y);
         }
     }
 
@@ -96,8 +96,11 @@ Level.prototype.addTile = function (char, x, y)
     var pY = y * this.tileSize;
     switch (char)
     {
+        case 'Y':
+            object = new Sprite(pX, pY, "assets/wall.png");
+            break;
         case 'W':
-            object = new Sprite(pX, pY, Math.random() < 0.5 ? "assets/wall.png" : "assets/wall2.png");
+            object = new Sprite(pX, pY, "assets/wall2.png");
             break;
         case 'X':
             object = new Goal(pX, pY, "assets/win.png");
@@ -113,10 +116,7 @@ Level.prototype.addTile = function (char, x, y)
             object.onCollide = this.levelFailed;
             break;
         case 'S':
-            setTimeout(function ()
-            {
-                this.player = new Player(pX, pY - 10);
-            }.bind(this), 500);
+            this.player = new Player(pX, pY);
             break;
         default:
             break;
@@ -135,7 +135,8 @@ Level.prototype.addTile = function (char, x, y)
 
 Level.prototype.levelFailed = function ()
 {
-    Level.instance.particles.emit(Level.instance.player.x + 20, Level.instance.player.y + 32);
+    var player = Level.instance.player;
+    Level.instance.particles.emit(player.x + player.width/2, player.y + player.height/2, '#AAAAAA');
     Level.instance.player.die();
     var levelStr = localStorage['js13_currentLevel'] || 1;
     var topLevel = parseInt(levelStr);
@@ -150,8 +151,9 @@ Level.prototype.levelFailed = function ()
     }.bind(this), Level.instance.respawnTime * 1000);
 };
 
-Level.prototype.levelComplete = function ()
+Level.prototype.levelComplete = function (x,y)
 {
+    Level.instance.particles.emit(x, y, '#AAFFAA');
     var levelStr = localStorage['js13_currentLevel'] || 1;
 
     var topLevel = parseInt(levelStr);
@@ -161,7 +163,10 @@ Level.prototype.levelComplete = function ()
     // TODO:
     // Show win popup
     //
-    game.goto("game", {level: topLevel});
+    setTimeout(function ()
+    {
+        game.goto("game", {level: topLevel});
+    }, Level.instance.respawnTime * 1000);
 };
 
 Level.prototype.tileAt = function (x, y)

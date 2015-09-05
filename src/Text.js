@@ -22,6 +22,7 @@ Text.prototype.render = function (context)
     if (!this.width)
         this.width = context.measureText(this.text).width;
 
+    context.fillStyle = "#000000";
     context.fillText(this.text, this.x, this.y + this.height);
 };
 

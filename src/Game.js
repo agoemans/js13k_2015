@@ -12,9 +12,19 @@ Game.prototype.enter = function (config)
     State.prototype.enter.call(this, context);
 
     this.cameraOffset = 0;
-    //var levelName = 'assets/level' + config.level + '.txt';
-    var levelName = 'assets/level5.txt';
+
+    var level = getUrlParameter('level') || config.level;
+    var levelName = 'assets/level'+level+'.txt';
+
     this.level = new Level(levelName);
+
+    var levelInt = parseInt(level);
+    if(levelInt == 1)
+        game.popup('tutorial',  { lines: ['Use A and D to move around', 'Use Spacebar to jump'] });
+    else if(levelInt == 2)
+        game.popup('tutorial',  { lines: ['Use Q to flip gravity'] });
+    else if(levelInt == 4)
+        game.popup('tutorial',  { lines: ['Watch out for those spikes!'] });
 };
 
 Game.prototype.leave = function ()
@@ -51,13 +61,13 @@ Game.prototype.keyDown = function (key)
     if (!this.level.player)
         return;
 
-    if (key === "A")
+    if (key === 65)
         this.level.player.move(-1);
-    if (key === 'D')
+    if (key === 68)
         this.level.player.move(1);
-    if (key === ' ')
+    if (key === 32)
         this.level.player.jump();
-    if (key === 'Q')
+    if (key === 17 || key == 81)
         this.level.player.flip();
 };
 
@@ -66,7 +76,7 @@ Game.prototype.keyUp = function (key)
     if (!this.level.player)
         return;
 
-    if (key === "A" || key === "D")
+    if (key === 65  || key === 68)
         this.level.player.stop();
 };
 

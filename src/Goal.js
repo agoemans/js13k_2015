@@ -9,16 +9,7 @@ ctor(Goal);
 
 Goal.prototype.collide = function (other)
 {
-    // TODO:
-    // - Show victory particles/animation
-    // - Then call goalCleared
-    console.log("Hit other: " + typeof other);
     this.collides = false;
-
-    setTimeout(function ()
-    {
-        this.destroy();
-        if (this.onGoalReached) this.onGoalReached();
-    }.bind(this), 1000);
-
+    this.destroy();
+    if (this.onGoalReached) this.onGoalReached(this.x + this.width/2,this.y + this.height/2);
 };

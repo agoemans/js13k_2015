@@ -6,6 +6,7 @@ function ParticleEmitter(x, y, lifeTime)
     this.particles = [];
     this.time = 0;
     this.lifeTime = lifeTime;
+    this.color = '#FFFFFF';
 
     for (var i = 0; i < this.numParticles; i++)
     {
@@ -24,8 +25,9 @@ ParticleEmitter.prototype.destroy = function ()
     //Level.instance.removeAt(this.x, this.y);
 };
 
-ParticleEmitter.prototype.emit = function (x, y)
+ParticleEmitter.prototype.emit = function (x, y, color)
 {
+    this.color = color || this.color;
     this.particles.forEach(function (particle)
     {
         particle.x = x;
@@ -58,8 +60,10 @@ ParticleEmitter.prototype.render = function (context)
     if (!this.alive)
         return;
 
+
     context.globalAlpha = (1 - this.time / this.lifeTime);
     //context.scale(this.time/this.lifeTime + 1,this.time/this.lifeTime + 1);
+    context.fillStyle = this.color;
 
     this.particles.forEach(function (particle)
     {

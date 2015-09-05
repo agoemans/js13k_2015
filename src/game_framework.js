@@ -51,11 +51,11 @@ window.onload = function()
     requestAnimationFrame(update);
 
     document.addEventListener("keydown",function(){
-        game.keyDown(String.fromCharCode(event.keyCode))
+        game.keyDown(event.keyCode || event.which)
     }, false);
 
     document.addEventListener("keyup",function(){
-        game.keyUp(String.fromCharCode(event.keyCode))
+        game.keyUp(event.keyCode || event.which)
     }, false);
 
     canvas.addEventListener('mousemove', function(evt)

@@ -26,7 +26,6 @@ Particle.prototype.update = function (deltaSeconds)
 
 Particle.prototype.render = function (context)
 {
-    context.fillStyle = "#aaaaaa";
     context.fillRect(this.x, this.y, this.width, this.height);
 };
 
