@@ -1,4 +1,4 @@
-function Sprite(x,y,image,frameCount,animCount)
+function Sprite(x, y, image, frameCount, animCount)
 {
     GameObject.call(this, x, y);
 
@@ -20,9 +20,10 @@ function Sprite(x,y,image,frameCount,animCount)
         var img = new Image();
         img.src = image;
         this.image = img;
-        this.image.onload = function(){
-            this.width = this.image.width/this.frameCount;
-            this.height = this.image.height/this.animCount;
+        this.image.onload = function ()
+        {
+            this.width = this.image.width / this.frameCount;
+            this.height = this.image.height / this.animCount;
             this.loaded = true;
         }.bind(this);
     }
@@ -37,33 +38,33 @@ function Sprite(x,y,image,frameCount,animCount)
     this.flipX = false;
 
     this.collides = true;
-    this.colliding = { top: false, bottom: false, left: false, right: false };
+    this.colliding = {top: false, bottom: false, left: false, right: false};
     this.onCollide = null;
 
     this.physics = false;
     this.gravity = 8500;
-    this.velocity = { x: 0, y: 0 };
+    this.velocity = {x: 0, y: 0};
 };
 
 Sprite.prototype = Object.create(GameObject.prototype);
 
-Sprite.prototype.resetCollision = function()
+Sprite.prototype.resetCollision = function ()
 {
     this.colliding.top = this.colliding.bottom = this.colliding.left = this.colliding.right = false;
 };
 
-Sprite.prototype.overlap = function(x,y,width,height)
+Sprite.prototype.overlap = function (x, y, width, height)
 {
     //return this.collides;
     // TODO; fix this
-    if(!this.collides)
+    if (!this.collides)
         return false;
 
 
     var left = this.x;
     var right = this.x + this.width;
     var xOver = (left >= x && left <= x + width) || (right >= x && right <= x + width)
-        || (left <= x && right >= x) || (left <= x+width && right >= x+width);
+        || (left <= x && right >= x) || (left <= x + width && right >= x + width);
 
     var top = this.y;
     var bottom = this.y + this.height;
@@ -72,7 +73,7 @@ Sprite.prototype.overlap = function(x,y,width,height)
     return xOver && yOver;
 };
 
-Sprite.prototype.doCollision = function(elapsed)
+Sprite.prototype.doCollision = function (elapsed)
 {
     var totalSteps = 10;
     var x = this.x;
@@ -89,30 +90,30 @@ Sprite.prototype.doCollision = function(elapsed)
     {
         y += this.velocity.y * elapsed / totalSteps;
 
-        if(this.velocity.y < 0)
+        if (this.velocity.y < 0)
         {
-            var tl = Level.instance.tileAt(x , y);
-            var tr = Level.instance.tileAt(x + this.width-1, y);
-            var tlOverlap = tl && tl.overlap(x,y,this.width,this.height);
-            var trOverlap = tr && tr.overlap(x,y,this.width,this.height);
+            var tl = Level.instance.tileAt(x, y);
+            var tr = Level.instance.tileAt(x + this.width - 1, y);
+            var tlOverlap = tl && tl.overlap(x, y, this.width, this.height);
+            var trOverlap = tr && tr.overlap(x, y, this.width, this.height);
 
-            if(tlOverlap)
+            if (tlOverlap)
                 collidingObjects.push(tl);
-            if(trOverlap)
+            if (trOverlap)
                 collidingObjects.push(tr);
 
             this.colliding.top = (tlOverlap || trOverlap);
         }
-        else if(this.velocity.y > 0)
+        else if (this.velocity.y > 0)
         {
-            var bl = Level.instance.tileAt(x , y + this.height-1);
-            var br = Level.instance.tileAt(x + this.width-1, y + this.height-1);
-            var blOverlap = bl && bl.overlap(x,y,this.width,this.height);
-            var brOverlap = br && br.overlap(x,y,this.width,this.height);
+            var bl = Level.instance.tileAt(x, y + this.height - 1);
+            var br = Level.instance.tileAt(x + this.width - 1, y + this.height - 1);
+            var blOverlap = bl && bl.overlap(x, y, this.width, this.height);
+            var brOverlap = br && br.overlap(x, y, this.width, this.height);
 
-            if(blOverlap)
+            if (blOverlap)
                 collidingObjects.push(bl);
-            if(brOverlap)
+            if (brOverlap)
                 collidingObjects.push(br);
 
             this.colliding.bottom = (blOverlap || brOverlap);
@@ -137,31 +138,31 @@ Sprite.prototype.doCollision = function(elapsed)
     {
         x += this.velocity.x * elapsed / totalSteps;
 
-        if(this.velocity.x < 0)
+        if (this.velocity.x < 0)
         {
             var tl = Level.instance.tileAt(x, y);
-            var bl = Level.instance.tileAt(x, y + this.height-1);
-            var tlOverlap = tl && tl.overlap(x,y,this.width,this.height);
-            var blOverlap = bl && bl.overlap(x,y,this.width,this.height);
+            var bl = Level.instance.tileAt(x, y + this.height - 1);
+            var tlOverlap = tl && tl.overlap(x, y, this.width, this.height);
+            var blOverlap = bl && bl.overlap(x, y, this.width, this.height);
 
-            if(tlOverlap)
+            if (tlOverlap)
                 collidingObjects.push(tl);
-            if(blOverlap)
+            if (blOverlap)
                 collidingObjects.push(bl);
 
             this.colliding.left = (tlOverlap || blOverlap);
         }
-        else if(this.velocity.x > 0)
+        else if (this.velocity.x > 0)
         {
-            var tr = Level.instance.tileAt(x + this.width-1, y);
-            var br = Level.instance.tileAt(x + this.width-1, y + this.height-1);
+            var tr = Level.instance.tileAt(x + this.width - 1, y);
+            var br = Level.instance.tileAt(x + this.width - 1, y + this.height - 1);
 
-            var trOverlap = tr && tr.overlap(x,y,this.width,this.height);
-            var brOverlap = br && br.overlap(x,y,this.width,this.height);
+            var trOverlap = tr && tr.overlap(x, y, this.width, this.height);
+            var brOverlap = br && br.overlap(x, y, this.width, this.height);
 
-            if(trOverlap)
+            if (trOverlap)
                 collidingObjects.push(tr);
-            if(brOverlap)
+            if (brOverlap)
                 collidingObjects.push(br);
 
             this.colliding.right = (trOverlap || brOverlap);
@@ -175,28 +176,29 @@ Sprite.prototype.doCollision = function(elapsed)
         }
     }
 
-    collidingObjects.forEach(function(other){
-       if(other && other.collides) other.collide(this);
+    collidingObjects.forEach(function (other)
+    {
+        if (other && other.collides) other.collide(this);
     });
 
     progress = elapsed * steps / totalSteps;
     this.x += velX * progress;
 };
 
-Sprite.prototype.collide = function()
+Sprite.prototype.collide = function ()
 {
-    if(this.onCollide) this.onCollide();
+    if (this.onCollide) this.onCollide();
 };
 
-Sprite.prototype.destroy = function()
+Sprite.prototype.destroy = function ()
 {
     Level.instance.removeAt(this.x, this.y);
-    if(this.onDestroyed)this.onDestroyed(this);
+    if (this.onDestroyed)this.onDestroyed(this);
 };
 
-Sprite.prototype.play = function(animation, loop, fps)
+Sprite.prototype.play = function (animation, loop, fps)
 {
-    if(this.animation != animation)
+    if (this.animation != animation)
         this.time = 0;
 
     this.loop = loop === undefined ? this.loop : loop;
@@ -206,52 +208,53 @@ Sprite.prototype.play = function(animation, loop, fps)
     this.animating = true;
 };
 
-Sprite.prototype.stop = function()
+Sprite.prototype.stop = function ()
 {
     this.animating = false;
 };
 
-Sprite.prototype.update = function(deltaSeconds)
+Sprite.prototype.update = function (deltaSeconds)
 {
-    if(this.physics)
+    if (this.physics)
     {
-        var elapsed = Math.min(deltaSeconds,0.016);
-        this.velocity.y += this.gravity*elapsed;
+        var elapsed = Math.min(deltaSeconds, 0.016);
+        this.velocity.y += this.gravity * elapsed;
 
         this.resetCollision();
         this.doCollision(deltaSeconds);
     }
 
-    if(this.animating)
+    if (this.animating)
     {
         this.time += deltaSeconds;
-        this.frame = Math.floor(this.fps *this.time);
-        if(this.loop)
-            this.frame = this.frame%this.frameCount;
+        this.frame = Math.floor(this.fps * this.time);
+        if (this.loop)
+            this.frame = this.frame % this.frameCount;
         else
-            this.frame = Math.min(this.frameCount-1, this.frame);
+            this.frame = Math.min(this.frameCount - 1, this.frame);
     }
 };
 
-Sprite.prototype.render = function(context){
+Sprite.prototype.render = function (context)
+{
 
-    if(!this.visible)
+    if (!this.visible)
         return;
 
-    if(this.flipY || this.flipX)
+    if (this.flipY || this.flipX)
     {
         context.save();
-        var flipX = this.x + this.width/2;
-        var flipY = this.y + this.height/2;
+        var flipX = this.x + this.width / 2;
+        var flipY = this.y + this.height / 2;
         context.translate(flipX, flipY);
         context.scale(this.flipX ? -1 : 1, this.flipY ? -1 : 1);
         context.translate(-flipX, -flipY);
     }
 
-    if(this.loaded)
-        context.drawImage(this.image, this.frame*this.width, this.animation*this.height, this.width, this.height, this.x, this.y, this.width, this.height);
+    if (this.loaded)
+        context.drawImage(this.image, this.frame * this.width, this.animation * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
 
-    if(this.flipY || this.flipX)
+    if (this.flipY || this.flipX)
         context.restore();
 };
 

@@ -10,14 +10,16 @@ function Text(x, y, size, font, text)
 
 Text.prototype = Object.create(GameObject.prototype);
 
-Text.prototype.update = function(deltaSeconds){
+Text.prototype.update = function (deltaSeconds)
+{
 
 };
 
-Text.prototype.render = function(context) {
+Text.prototype.render = function (context)
+{
     context.font = this.style;
 
-    if(!this.width)
+    if (!this.width)
         this.width = context.measureText(this.text).width;
 
     context.fillText(this.text, this.x, this.y + this.height);

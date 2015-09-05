@@ -5,26 +5,28 @@ function Menu()
 
 Menu.prototype = Object.create(State.prototype);
 
-Menu.prototype.enter = function()
+Menu.prototype.enter = function ()
 {
     State.prototype.enter.call(this);
-    var text = new Text(canvasWidth/2 - 250, 100, 120, "Roboto Thin", "Reversed");
+    var text = new Text(canvasWidth / 2 - 250, 100, 120, "Roboto Thin", "Reversed");
     this.add(text);
 
-    this.playButton = new Text(canvasWidth/2 - 50, canvasHeight/2 - 60, 60, "Roboto Thin", "Play");
+    this.playButton = new Text(canvasWidth / 2 - 50, canvasHeight / 2 - 60, 60, "Roboto Thin", "Play");
     this.add(this.playButton);
-    this.playButton.onClick = function(){
+    this.playButton.onClick = function ()
+    {
         var levelStr = localStorage['js13_currentLevel'] || 1;
         var topLevel = parseInt(levelStr);
 
-        goto("game", { level: topLevel });
+        game.goto("game", {level: topLevel});
     };
 
-    text = new Text(canvasWidth/2 - 130, canvasHeight - 40, 20, "Roboto Thin", "by David & Amy Goemans");
+    text = new Text(canvasWidth / 2 - 130, canvasHeight - 40, 20, "Roboto Thin", "by David & Amy Goemans");
     this.add(text);
 };
 
-Menu.prototype.update = function(deltaSeconds){
+Menu.prototype.update = function (deltaSeconds)
+{
     State.prototype.update.call(this, deltaSeconds);
 };
 

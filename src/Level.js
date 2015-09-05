@@ -22,26 +22,27 @@ function Level(file)
     this.file = file;
     this.loadLevel(file);
 
-    this.particles = new ParticleEmitter(0,0,this.respawnTime);
+    this.particles = new ParticleEmitter(0, 0, this.respawnTime);
 
     Level.instance = this;
 };
 
 Level.prototype = Object.create(Object.prototype);
 
-Level.prototype.levelLoaded = function(data)
+Level.prototype.levelLoaded = function (data)
 {
     this.tiles = data;
     this.processLevel();
 }
 
-Level.prototype.processFileData = function(data)
+Level.prototype.processFileData = function (data)
 {
     var templist = [];
     var mainlist = [];
     var i;
     templist = data.split("\n");
-    for (i=0; i < templist.length; i++){
+    for (i = 0; i < templist.length; i++)
+    {
         mainlist.push(templist[i].trim().split(""));
     }
     this.levelLoaded(mainlist);
@@ -49,38 +50,38 @@ Level.prototype.processFileData = function(data)
 }
 
 
-Level.prototype.loadLevel = function(file)
+Level.prototype.loadLevel = function (file)
 {
-   loadFile(this.processFileData, this, file);
+    loadFile(this.processFileData, this, file);
 };
 
-Level.prototype.processLevel = function()
+Level.prototype.processLevel = function ()
 {
     this.tilesX = this.tiles[0].length + 2;
     this.tilesY = this.tiles.length + 2;
 
-    for(var y=0; y<this.tilesY; y++)
+    for (var y = 0; y < this.tilesY; y++)
     {
         this.tileObects[y] = [];
-        for(var x=0; x<this.tilesX; x++)
+        for (var x = 0; x < this.tilesX; x++)
         {
-            if(x === 0 || x === this.tilesX-1 || y === 0 || y === this.tilesY-1)
-                this.addTile('W', x,y);
+            if (x === 0 || x === this.tilesX - 1 || y === 0 || y === this.tilesY - 1)
+                this.addTile('W', x, y);
         }
     }
 
-    for(var y=0; y<this.tiles.length;y++)
+    for (var y = 0; y < this.tiles.length; y++)
     {
         var row = this.tiles[y];
-        for(var x=0; x<row.length;x++)
+        for (var x = 0; x < row.length; x++)
         {
-            var newX = x+this.xOffset;
-            var newY = y+this.yOffset;
-            var sprite = new Sprite(newX*this.tileSize, newY*this.tileSize, "assets/bg.png");
+            var newX = x + this.xOffset;
+            var newY = y + this.yOffset;
+            var sprite = new Sprite(newX * this.tileSize, newY * this.tileSize, "assets/bg.png");
             this.bgLayer.push(sprite);
 
             var tile = row[x];
-            this.addTile(tile,newX, newY);
+            this.addTile(tile, newX, newY);
         }
     }
 
@@ -88,15 +89,15 @@ Level.prototype.processLevel = function()
     this.height = this.tilesY * this.tileSize;
 };
 
-Level.prototype.addTile = function(char, x, y)
+Level.prototype.addTile = function (char, x, y)
 {
     var object = null;
-    var pX = x*this.tileSize;
-    var pY = y*this.tileSize;
-    switch(char)
+    var pX = x * this.tileSize;
+    var pY = y * this.tileSize;
+    switch (char)
     {
         case 'W':
-            object = new Sprite(pX, pY,Math.random() < 0.5 ? "assets/wall.png" : "assets/wall2.png");
+            object = new Sprite(pX, pY, Math.random() < 0.5 ? "assets/wall.png" : "assets/wall2.png");
             break;
         case 'X':
             object = new Goal(pX, pY, "assets/win.png");
@@ -112,7 +113,8 @@ Level.prototype.addTile = function(char, x, y)
             object.onCollide = this.levelFailed;
             break;
         case 'S':
-            setTimeout(function(){
+            setTimeout(function ()
+            {
                 this.player = new Player(pX, pY - 10);
             }.bind(this), 500);
             break;
@@ -120,7 +122,7 @@ Level.prototype.addTile = function(char, x, y)
             break;
     }
 
-    if(object)
+    if (object)
     {
 
         this.renderList.push(object);
@@ -131,9 +133,9 @@ Level.prototype.addTile = function(char, x, y)
     return null;
 };
 
-Level.prototype.levelFailed = function()
+Level.prototype.levelFailed = function ()
 {
-    Level.instance.particles.emit(Level.instance.player.x + 20,Level.instance.player.y + 32);
+    Level.instance.particles.emit(Level.instance.player.x + 20, Level.instance.player.y + 32);
     Level.instance.player.die();
     var levelStr = localStorage['js13_currentLevel'] || 1;
     var topLevel = parseInt(levelStr);
@@ -142,12 +144,13 @@ Level.prototype.levelFailed = function()
     // TODO:
     // Show lose popup
     //
-    setTimeout(function(){
-        goto("game", { level: topLevel });
-    }.bind(this), Level.instance.respawnTime*1000);
+    setTimeout(function ()
+    {
+        game.goto("game", {level: topLevel});
+    }.bind(this), Level.instance.respawnTime * 1000);
 };
 
-Level.prototype.levelComplete = function()
+Level.prototype.levelComplete = function ()
 {
     var levelStr = localStorage['js13_currentLevel'] || 1;
 
@@ -158,24 +161,24 @@ Level.prototype.levelComplete = function()
     // TODO:
     // Show win popup
     //
-    goto("game", { level: topLevel });
+    game.goto("game", {level: topLevel});
 };
 
-Level.prototype.tileAt = function(x,y)
+Level.prototype.tileAt = function (x, y)
 {
-    var tileX = Math.floor(x/this.tileSize);
-    var tileY = Math.floor(y/this.tileSize);
-    if(tileY >= this.tileObects.length || tileX > this.tileObects[tileY].length)
+    var tileX = Math.floor(x / this.tileSize);
+    var tileY = Math.floor(y / this.tileSize);
+    if (tileY >= this.tileObects.length || tileX > this.tileObects[tileY].length)
         return null;
 
     return this.tileObects[tileY][tileX];
 };
 
-Level.prototype.removeAt = function(x,y)
+Level.prototype.removeAt = function (x, y)
 {
-    var tileX = Math.floor(x/this.tileSize);
-    var tileY = Math.floor(y/this.tileSize);
-    if(tileY >= this.tileObects.length || tileX > this.tileObects[tileY].length)
+    var tileX = Math.floor(x / this.tileSize);
+    var tileY = Math.floor(y / this.tileSize);
+    if (tileY >= this.tileObects.length || tileX > this.tileObects[tileY].length)
         return null;
 
     var object = this.tileObects[tileY][tileX];
@@ -187,27 +190,31 @@ Level.prototype.removeAt = function(x,y)
 };
 
 
-Level.prototype.update = function(deltaSeconds){
-    if(this.player)
+Level.prototype.update = function (deltaSeconds)
+{
+    if (this.player)
         this.player.update(deltaSeconds);
 
     this.particles && this.particles.update(deltaSeconds);
 };
 
-Level.prototype.render = function(context) {
+Level.prototype.render = function (context)
+{
 
-    this.bgLayer.forEach(function(obj){
+    this.bgLayer.forEach(function (obj)
+    {
         obj.render(context);
     });
 
-    this.renderList.forEach(function(obj){
+    this.renderList.forEach(function (obj)
+    {
         obj.render(context);
     });
 
-    if(this.player)
+    if (this.player)
         this.player.render(context);
 
     this.particles && this.particles.render(context);
 };
 
-ctor(Text);
+ctor(Level);

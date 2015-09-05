@@ -19,7 +19,29 @@ module.exports = function(grunt) {
 					mangle: false,
 				},
 				files: {
-					'build/compiled.js': ['src/**/*.js']
+
+	/*<script type="text/javascript" src="src/common.js"></script>
+		<script type="text/javascript" src="src/game_framework.js"></script>
+		<script type="text/javascript" src="src/GameObject.js"></script>
+		<script type="text/javascript" src="src/sprite.js"></script>
+		<script type="text/javascript" src="src/Text.js"></script>
+		<script type="text/javascript" src="src/Particle.js"></script>
+		<script type="text/javascript" src="src/ParticleEmitter.js"></script>
+		<script type="text/javascript" src="src/State.js"></script>
+		<script type="text/javascript" src="src/readAJAX.js"></script>*/
+
+
+		'build/compiled.js': ['src/game_framework.js',
+						'src/common.js',
+						'src/main.js',
+						'src/readAJAX.js',
+						'src/GameObject.js',
+						'src/sprite.js',
+						'src/Text.js',
+						'src/Particle.js',
+						'src/ParticleEmitter.js',
+						'src/State.js',
+						'src/**/*.js']
 				},
 			},
 			compressed: {
@@ -30,7 +52,17 @@ module.exports = function(grunt) {
 					}
 				},
 				files: {
-					'build/compiled.js': ['src/**/*.js']
+					'build/compiled.js': ['src/game_framework.js',
+						'src/common.js',
+						'src/main.js',
+						'src/readAJAX.js',
+						'src/GameObject.js',
+						'src/sprite.js',
+						'src/Text.js',
+						'src/Particle.js',
+						'src/ParticleEmitter.js',
+						'src/State.js',
+						'src/**/*.js']
 				},
 			}
 		},
@@ -104,7 +136,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('default', ['watch']);
-	grunt.registerTask('build', ['uglify:development', 'htmlmin:development']);
+	grunt.registerTask('build', ['uglify:compressed'/*, 'htmlmin:development'*/]);
 	grunt.registerTask('build-compress', ['uglify:compressed', 'htmlmin:compressed', 'compress:main', 'sizecheck']);
 
 };

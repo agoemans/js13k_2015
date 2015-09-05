@@ -1,59 +1,65 @@
 /**
  * Created by David on 15-Aug-15.
  */
+var game = (function(){
+    
+    var module = {};
+    
+    module.states = {};
+    module.activeState = null;
+    module.width = 0;
+    module.height = 0;
 
-var states = {};
-var activeState = null;
-var gameWidth = 0;
-var gameHeight = 0;
+    module.initGame = function(w,h)
+    {
+        module.width = w;
+        module.height = h;
+        module.states.menu = new Menu();
+        module.states.game = new Game();
+        module.goto("menu");
+    };
 
-function initGame(w,h)
-{
-    gameWidth = w;
-    gameHeight = h;
-    states.menu = new Menu();
-    states.game = new Game();
-    goto("menu");
-}
+    module.updateGame = function(deltaSeconds)
+    {
+        module.activeState.update(deltaSeconds);
+    };
 
-function updateGame(deltaSeconds)
-{
-    activeState.update(deltaSeconds);
-}
+    module.renderGame = function(context)
+    {
+        module.activeState.render(context);
+    };
 
-function renderGame(context)
-{
-    activeState.render(context);
-}
+    module.goto = function(state, config)
+    {
+        if(module.activeState)module.activeState.leave();
+        module.activeState = module.states[state];
+        module.activeState.enter(config);
+    };
 
-function goto(state, config)
-{
-    if(activeState)activeState.leave();
-    activeState = states[state];
-    activeState.enter(config);
-}
+    module.mouseUp = function(x,y)
+    {
+        module.activeState.mouseUp(x,y);
+    };
 
-function mouseUp(x,y)
-{
-    activeState.mouseUp(x,y);
-}
+    module.mouseDown = function(x,y)
+    {
+        module.activeState.mouseDown(x,y);
+    };
 
-function mouseDown(x,y)
-{
-    activeState.mouseDown(x,y);
-}
+    module.mouseMove = function(x,y)
+    {
+        module.activeState.mouseMove(x,y);
+    };
 
-function mouseMove(x,y)
-{
-    activeState.mouseMove(x,y);
-}
+    module.keyDown = function(key)
+    {
+        module.activeState.keyDown(key);
+    };
 
-function keyDown(key)
-{
-    activeState.keyDown(key);
-}
+    module.keyUp = function(key)
+    {
+        module.activeState.keyUp(key);
+    };
 
-function keyUp(key)
-{
-    activeState.keyUp(key);
-}
+    return module;
+}());

@@ -19,10 +19,6 @@ var localContext = null;
 var backgroundCanvas = null;
 var backgroundContext = null;
 
-var mouseUp = null;
-var mouseMove = null;
-var mouseDown = null;
-
 var drawStaticBackground = null;
 
 window.onload = function()
@@ -47,9 +43,7 @@ window.onload = function()
     backgroundCanvas.height = canvasHeight;
     backgroundContext = backgroundCanvas.getContext('2d');
 
-
-
-    initGame(canvasWidth, canvasHeight);
+    game.initGame(canvasWidth, canvasHeight);
 
     if( drawStaticBackground != null )
         drawStaticBackground(backgroundContext);
@@ -57,34 +51,29 @@ window.onload = function()
     requestAnimationFrame(update);
 
     document.addEventListener("keydown",function(){
-        if(keyDown)
-            keyDown(String.fromCharCode(event.keyCode))
+        game.keyDown(String.fromCharCode(event.keyCode))
     }, false);
 
     document.addEventListener("keyup",function(){
-        if(keyUp)
-            keyUp(String.fromCharCode(event.keyCode))
+        game.keyUp(String.fromCharCode(event.keyCode))
     }, false);
 
     canvas.addEventListener('mousemove', function(evt)
     {
         var mousePos = getMousePos(canvas, evt);
-        if( mouseMove != null )
-            mouseMove(mousePos.x, mousePos.y)
+        game.mouseMove(mousePos.x, mousePos.y)
     }, false);
 
     canvas.addEventListener('mousedown', function(evt)
     {
         var mousePos = getMousePos(canvas, evt);
-        if( mouseDown != null )
-            mouseDown(mousePos.x, mousePos.y)
+        game.mouseDown(mousePos.x, mousePos.y)
     }, false);
 
     canvas.addEventListener('mouseup', function(evt)
     {
         var mousePos = getMousePos(canvas, evt);
-        if(  mouseUp != null )
-            mouseUp(mousePos.x, mousePos.y)
+        game.mouseUp(mousePos.x, mousePos.y)
     }, false);
 
 }
@@ -101,8 +90,8 @@ function update()
     var delta = Math.min(1000, now - then); // Worst case = 1fps
     var deltaSeconds = delta/1000;
 
-    updateGame(deltaSeconds);
-    renderGame(localContext);
+    game.updateGame(deltaSeconds);
+    game.renderGame(localContext);
 
     if( drawFps )
     {

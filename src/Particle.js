@@ -1,4 +1,4 @@
-function Particle(x,y,w,h,vx,vy)
+function Particle(x, y, w, h, vx, vy)
 {
     GameObject.call(this, x, y);
 
@@ -6,25 +6,25 @@ function Particle(x,y,w,h,vx,vy)
     this.height = h;
 
     this.gravity = 1500;
-    this.velocity = { x: vx, y: vy };
+    this.velocity = {x: vx, y: vy};
 };
 
 Particle.prototype = Object.create(GameObject.prototype);
 
-Particle.prototype.destroy = function()
+Particle.prototype.destroy = function ()
 {
     Level.instance.removeAt(this.x, this.y);
 };
 
-Particle.prototype.update = function(deltaSeconds)
+Particle.prototype.update = function (deltaSeconds)
 {
-    var elapsed = Math.min(deltaSeconds,0.016);
-    this.velocity.y += this.gravity*elapsed;
-    this.x += this.velocity.x*elapsed;
-    this.y += this.velocity.y*elapsed;
+    var elapsed = Math.min(deltaSeconds, 0.016);
+    this.velocity.y += this.gravity * elapsed;
+    this.x += this.velocity.x * elapsed;
+    this.y += this.velocity.y * elapsed;
 };
 
-Particle.prototype.render = function(context)
+Particle.prototype.render = function (context)
 {
     context.fillStyle = "#aaaaaa";
     context.fillRect(this.x, this.y, this.width, this.height);
