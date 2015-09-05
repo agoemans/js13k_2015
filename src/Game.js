@@ -13,7 +13,7 @@ Game.prototype.enter = function(config)
 
     this.cameraOffset = 0;
     //var levelName = 'assets/level' + config.level + '.txt';
-    var levelName = 'assets/level5.txt';
+    var levelName = 'assets/level2.txt';
     this.level = new Level(levelName);
 };
 
