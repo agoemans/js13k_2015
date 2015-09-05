@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "closure": "~1.0.3",
-    "grunt-closure-compiler": "0.0.21"
+    "grunt-closure-compiler": "0.0.21",
+    "grunt-contrib-concat": "^0.5.1"
   }
 }

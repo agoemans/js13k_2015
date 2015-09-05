@@ -19,19 +19,7 @@ module.exports = function(grunt) {
 					mangle: false,
 				},
 				files: {
-
-	/*<script type="text/javascript" src="src/common.js"></script>
-		<script type="text/javascript" src="src/game_framework.js"></script>
-		<script type="text/javascript" src="src/GameObject.js"></script>
-		<script type="text/javascript" src="src/sprite.js"></script>
-		<script type="text/javascript" src="src/Text.js"></script>
-		<script type="text/javascript" src="src/Particle.js"></script>
-		<script type="text/javascript" src="src/ParticleEmitter.js"></script>
-		<script type="text/javascript" src="src/State.js"></script>
-		<script type="text/javascript" src="src/readAJAX.js"></script>*/
-
-
-		'build/compiled.js': ['src/game_framework.js',
+		            'build/compiled.js': ['src/game_framework.js',
 						'src/common.js',
 						'src/main.js',
 						'src/readAJAX.js',
@@ -64,19 +52,6 @@ module.exports = function(grunt) {
 						'src/State.js',
 						'src/**/*.js']
 				},
-			}
-		},
-		less: {
-			development: {
-				files: {
-					"build/style.css": "css/**/*.less"
-				}
-			},
-			compressed: {
-				files: {
-					"css/**/*.css": "build/style.css"
-				},
-				compress: true,
 			}
 		},
 		htmlmin: {
@@ -113,14 +88,46 @@ module.exports = function(grunt) {
 					dest: './'
 				}]
 			}
+		},
+        concat: {
+            options: {
+            },
+            dist: {
+                src: ['src/game_framework.js',
+                    'src/common.js',
+                    'src/main.js',
+                    'src/readAJAX.js',
+                    'src/GameObject.js',
+                    'src/sprite.js',
+                    'src/Text.js',
+                    'src/Particle.js',
+                    'src/ParticleEmitter.js',
+                    'src/State.js',
+                    'src/**/*.js'],
+                dest: 'build/compiled.js'
+            }
+        },
+		'closure-compiler': {
+			game: {
+				closurePath: 'closure',
+				js: 'build/compiled.js',
+				jsOutputFile: 'build/compiled.min.js',
+				maxBuffer: 10240,
+				options: {
+					compilation_level: 'ADVANCED_OPTIMIZATIONS',
+					language_in: 'ECMASCRIPT5_STRICT'
+				}
+			}
 		}
 	});
 
+    grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-htmlmin');
 	grunt.loadNpmTasks('grunt-contrib-compress');
+	grunt.loadNpmTasks('grunt-closure-compiler');
 
 	var fs = require('fs');
 	grunt.registerTask('sizecheck', function() {
@@ -135,8 +142,9 @@ module.exports = function(grunt) {
 		});
 	});
 
+	grunt.registerTask('closure', ['closure-compiler']);
 	grunt.registerTask('default', ['watch']);
-	grunt.registerTask('build', ['uglify:compressed'/*, 'htmlmin:development'*/]);
-	grunt.registerTask('build-compress', ['uglify:compressed', 'htmlmin:compressed', 'compress:main', 'sizecheck']);
+	grunt.registerTask('build', ['concat', 'closure']);
+	grunt.registerTask('build-compress', ['uglify:compressed', 'closure', 'compress:main', 'sizecheck']);
 
 };

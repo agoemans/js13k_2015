@@ -16,7 +16,7 @@ function rgb(r,g,b)
 };
 
 
-function sign(x) { return x ? x < 0 ? -1 : 1 : 0; }
+Math.sign = function(x) { return x ? x < 0 ? -1 : 1 : 0; }
 
 
 function getMousePos(canvas, evt)
