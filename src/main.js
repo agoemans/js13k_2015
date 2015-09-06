@@ -11,9 +11,12 @@ var game = (function(){
     module.scale = 1;
     module.width = 0;
     module.height = 0;
+    module.canvas = null;
 
-    module.initGame = function(w,h)
+    module.initGame = function(w,h,scale,canvas)
     {
+        module.scale = scale;
+        module.canvas = canvas;
         module.width = w;
         module.height = h;
         module.audio = new AudioPlayer();

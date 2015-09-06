@@ -7,6 +7,7 @@ Menu.prototype = Object.create(State.prototype);
 
 Menu.prototype.enter = function ()
 {
+    game.canvas.style.backgroundColor = "#ffffff";
     game.audio.add('start',1,[[2,,0.18,,,0.23,,,,,,,,,,,,,1,,,0.1,,0.29]]);
 
     State.prototype.enter.call(this);

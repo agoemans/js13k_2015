@@ -9,6 +9,7 @@ Game.prototype = Object.create(State.prototype);
 
 Game.prototype.enter = function (config)
 {
+    game.canvas.style.backgroundColor = "#111";
     State.prototype.enter.call(this, context);
 
     this.cameraOffset = 0;
@@ -42,8 +43,11 @@ Game.prototype.render = function (context)
 {
     if (this.level.player)
     {
+        var xOffset = (game.width - (this.level.tilesX*this.level.tileSize))/2;
+        var yOffset = (game.height - (this.level.tilesY*this.level.tileSize))/2;
+
         this.cameraOffset = Math.floor(Math.clamp(-this.level.player.x + game.width / 2, -Level.instance.width + game.width, 0));
-        context.setTransform(1, 0, 0, 1, this.cameraOffset, 0);
+        context.setTransform(1, 0, 0, 1, this.cameraOffset + Math.max(xOffset,0), yOffset);
     }
 
     this.level.render(context);

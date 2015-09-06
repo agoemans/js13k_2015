@@ -6,6 +6,7 @@ function Text(x, y, size, font, text)
     this.font = font;
     this.height = size;
     this.style = this.height + "px " + font;
+    this.color = "#333";
 };
 
 Text.prototype = Object.create(GameObject.prototype);
@@ -22,7 +23,7 @@ Text.prototype.render = function (context)
     if (!this.width)
         this.width = context.measureText(this.text).width;
 
-    context.fillStyle = "#000000";
+    context.fillStyle = this.color;
     context.fillText(this.text, this.x, this.y + this.height);
 };
 
