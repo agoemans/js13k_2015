@@ -10,6 +10,7 @@ function Player(x, y)
 
     this.originalGravity = this.gravity;
     this.gravity = 0;
+    this.hasKey = null;
 
     game.audio.add('jump',1,[[0,,0.22,,0.1871,0.3251,,0.2199,,,,-0.2199,,0.1513,0.02,,,,0.74,,,,-0.02,0.29]]);
     game.audio.add('flip',1,[[0,,0.18,0.49,,0.49,,0.7,-0.02,,,-0.24,,0.12,-0.04,,-0.02,-0.02,0.48,,,,,0.29]]);

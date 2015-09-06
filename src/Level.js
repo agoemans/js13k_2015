@@ -104,6 +104,12 @@ Level.prototype.addTile = function (char, x, y)
         case 'W':
             object = new Sprite(pX, pY, "assets/wall2.png");
             break;
+        case 'D':
+            object = new Door(pX, pY, "assets/door.png");
+            break;
+        case 'K':
+            object = new Key(pX, pY, "assets/key.png");
+            break;
         case 'X':
             object = new Goal(pX, pY, "assets/win.png");
             object.onGoalReached = this.levelComplete;
@@ -211,6 +217,9 @@ Level.prototype.update = function (deltaSeconds)
     this.enemies.forEach(function(obj){
         obj.update(deltaSeconds);
     });
+
+    if (this.key)
+        this.key.update(deltaSeconds);
 
     this.particles && this.particles.update(deltaSeconds);
 };
