@@ -21,9 +21,9 @@ Game.prototype.enter = function (config)
 
     var levelInt = parseInt(level);
     if(levelInt == 1)
-        game.popup({ title: "Tutorial", lines: ['Use A and D to move around', 'Use Spacebar to jump'] });
+        game.popup({ title: "Tutorial", lines: ['Use LEFT and RIGHT to move', 'Use UP to jump'] });
     else if(levelInt == 2)
-        game.popup({ title: "Tutorial", lines: ['Use Q to flip gravity'] });
+        game.popup({ title: "Tutorial", lines: ['Use SPACE to flip gravity'] });
     else if(levelInt == 4)
         game.popup({ title: "Tutorial", lines: ['Watch out for those spikes!'] });
 };
@@ -65,13 +65,13 @@ Game.prototype.keyDown = function (key)
     if (!this.level.player)
         return;
 
-    if (key === 65)
+    if (key == 37)
         this.level.player.move(-1);
-    if (key === 68)
+    if (key == 39)
         this.level.player.move(1);
-    if (key === 32)
+    if (key == 38)
         this.level.player.jump();
-    if (key === 17 || key == 81)
+    if (key == 32)
         this.level.player.flip();
 };
 
@@ -80,7 +80,7 @@ Game.prototype.keyUp = function (key)
     if (!this.level.player)
         return;
 
-    if (key === 65  || key === 68)
+    if (key == 37 || key == 39)
         this.level.player.stop();
 };
 

@@ -16,11 +16,6 @@ var canvasHeight = 896;
 var localCanvas = null;
 var localContext = null;
 
-var backgroundCanvas = null;
-var backgroundContext = null;
-
-var drawStaticBackground = null;
-
 window.onload = function()
 {
     var canvas = document.getElementById("game");
@@ -39,23 +34,15 @@ window.onload = function()
     localCanvas.height = canvasHeight;
     localContext = localCanvas.getContext('2d');
 
-    backgroundCanvas = document.createElement('canvas');
-    backgroundCanvas.width = canvasWidth;
-    backgroundCanvas.height = canvasHeight;
-    backgroundContext = backgroundCanvas.getContext('2d');
-
     game.initGame(canvasWidth, canvasHeight, scale, canvas);
-
-    if( drawStaticBackground != null )
-        drawStaticBackground(backgroundContext);
 
     requestAnimationFrame(update);
 
-    document.addEventListener("keydown",function(){
+    document.addEventListener("keydown",function(event){
         game.keyDown(event.keyCode || event.which)
     }, false);
 
-    document.addEventListener("keyup",function(){
+    document.addEventListener("keyup",function(event){
         game.keyUp(event.keyCode || event.which)
     }, false);
 
@@ -108,7 +95,6 @@ function update()
     localContext.restore();
 
     context.setTransform(game.scale,0,0,game.scale,0,0);
-    context.drawImage(backgroundCanvas, 0, 0, canvasWidth, canvasHeight);
     context.drawImage(localCanvas, 0, 0, canvasWidth, canvasHeight);
     requestAnimationFrame(update);
 
