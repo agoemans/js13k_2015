@@ -109,10 +109,10 @@ Level.prototype.addTile = function (char, x, y)
             object = new Sprite(pX, pY, "assets/wall2.png");
             break;
         case 'D':
-            object = new Door(pX, pY, "assets/door.png");
+            object = new Door(20 + pX, pY, "assets/door.png");
             break;
         case 'K':
-            object = new Key(pX, pY, "assets/key.png");
+            object = new Key(17 + pX, 24 + pY, "assets/key.png");
             break;
         case 'X':
             object = new Goal(pX + 17, pY + 17, "assets/win.png");
