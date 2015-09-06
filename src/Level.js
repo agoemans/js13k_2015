@@ -4,6 +4,8 @@ function Level(file)
     this.xOffset = 1;
     this.yOffset = 1;
     this.respawnTime = 1;
+    this.active = false;
+    this.frames = 0;
 
     this.player = null;
     this.enemies = [];
@@ -144,13 +146,6 @@ Level.prototype.addTile = function (char, x, y)
         return object;
     }
 
-    setTimeout(function(){
-        this.enemies.forEach(function(obj){
-            obj.activate();
-        });
-        this.player.activate();
-    }.bind(this), 1000);
-
     return null;
 };
 
@@ -227,6 +222,19 @@ Level.prototype.update = function (deltaSeconds)
     });
 
     this.particles && this.particles.update(deltaSeconds);
+
+    if(!this.active && this.player)
+    {
+        this.frames++;
+        if(this.frames>3)
+        {
+            this.active = true;
+            this.enemies.forEach(function(obj){
+                obj.activate();
+            });
+            this.player.activate();
+        }
+    }
 };
 
 Level.prototype.render = function (context)
