@@ -118,9 +118,17 @@ module.exports = function(grunt) {
 					language_in: 'ECMASCRIPT5_STRICT'
 				}
 			}
-		}
+		},
+		copy: {
+			assets: {
+				files: [
+					{expand: true, src: ['assets/*'], dest: 'build/', filter: 'isFile'},
+				],
+			},
+		},
 	});
 
+	grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
