@@ -120,6 +120,11 @@ Level.prototype.addTile = function (char, x, y)
         case 'S':
             this.player = new Player(pX, pY);
             break;
+        case 'E':
+            var enemy = new Enemy(pX, pY);
+            enemy.onCollide = this.levelFailed;
+            this.enemies.push(enemy);
+            break;
         default:
             break;
     }
@@ -203,6 +208,10 @@ Level.prototype.update = function (deltaSeconds)
     if (this.player)
         this.player.update(deltaSeconds);
 
+    this.enemies.forEach(function(obj){
+        obj.update(deltaSeconds);
+    });
+
     this.particles && this.particles.update(deltaSeconds);
 };
 
@@ -214,7 +223,12 @@ Level.prototype.render = function (context)
         obj.render(context);
     });
 
-    this.renderList.forEach(function (obj)
+    this.renderList.forEach(function(obj)
+    {
+        obj.render(context);
+    });
+
+    this.enemies.forEach(function(obj)
     {
         obj.render(context);
     });
