@@ -6,6 +6,7 @@ function Level(file)
     this.respawnTime = 1;
     this.active = false;
     this.frames = 0;
+    this.goal = null;
 
     this.player = null;
     this.enemies = [];
@@ -107,8 +108,9 @@ Level.prototype.addTile = function (char, x, y)
             object = new Sprite(pX, pY, "assets/wall2.png");
             break;
         case 'X':
-            object = new Goal(pX, pY, "assets/win.png");
+            object = new Goal(pX + 17, pY + 17, "assets/win.png");
             object.onGoalReached = this.levelComplete;
+            this.goal = object;
             break;
         case '^':
             object = new Spike(pX, pY, "assets/spike.png");
@@ -220,6 +222,9 @@ Level.prototype.update = function (deltaSeconds)
     this.enemies.forEach(function(obj){
         obj.update(deltaSeconds);
     });
+
+    if(this.goal)
+        this.goal.update(deltaSeconds);
 
     this.particles && this.particles.update(deltaSeconds);
 

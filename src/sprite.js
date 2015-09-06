@@ -243,6 +243,8 @@ Sprite.prototype.update = function (deltaSeconds)
         else
             this.frame = Math.min(this.frameCount - 1, this.frame);
     }
+    else
+        this.time += deltaSeconds;
 };
 
 Sprite.prototype.render = function (context)
