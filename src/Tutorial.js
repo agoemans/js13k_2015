@@ -2,7 +2,7 @@ function Tutorial()
 {
     State.call(this);
     this.width = 400;
-    this.height = 200;
+    this.height = 150;
 };
 
 Tutorial.prototype = Object.create(State.prototype);
@@ -11,13 +11,14 @@ Tutorial.prototype.enter = function (config)
 {
     State.prototype.enter.call(this);
 
-    this.height = 200;
+    this.height = 150;
     this.clear();
 
-    var text = new Text(this.width / 2 - 60, 40, 32, "Trebuchet MS", "Tutorial");
+    var text = new Text(this.width / 2 - 50, 6, 28, "Trebuchet MS", "Tutorial");
+    text.color = "#222";
     this.add(text);
 
-    var height = 120;
+    var height = 100;
     var lineHeight = 40;
     config.lines.forEach(function(line){
         text = new Text(this.width / 2 - 160, height, 24, "Trebuchet MS ", line);
@@ -30,11 +31,19 @@ Tutorial.prototype.enter = function (config)
 
 Tutorial.prototype.render = function (context)
 {
-    context.setTransform(1,0,0,1,(game.width - this.width)/2,(game.height - this.height)/2);
-    context.strokeStyle = "#333333";
+    context.globalAlpha = 0.5;
+    context.fillStyle = "#000";
+    context.fillRect(0, 0, game.width, game.height);
+    context.globalAlpha = 1.0;
+
+    context.setTransform(1,0,0,1,(game.width - this.width)/2,game.height/2 - this.height/2);
+    context.strokeStyle = "#999";
+    context.lineWidth = 10;
     context.strokeRect(0, 0, this.width, this.height);
-    context.fillStyle = "#FFFFFF";
+    context.fillStyle = "#eee";
     context.fillRect(0, 0, this.width, this.height);
+    context.fillStyle = "#999";
+    context.fillRect(-1, 0, this.width+2, 50);
     State.prototype.render.call(this, context);
     context.setTransform(1,0,0,1,0,0);
 };

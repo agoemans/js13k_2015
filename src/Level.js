@@ -208,7 +208,6 @@ Level.prototype.update = function (deltaSeconds)
 
 Level.prototype.render = function (context)
 {
-
     this.bgLayer.forEach(function (obj)
     {
         obj.render(context);

@@ -26,9 +26,8 @@ window.onload = function()
     var canvas = document.getElementById("game");
 
     canvasWidth = window.innerWidth/window.innerHeight * canvasHeight;
-    //canvasHeight = window.innerHeight;
 
-    game.scale = window.innerHeight/canvasHeight;
+    var scale = window.innerHeight/canvasHeight;
 
     context = canvas.getContext("2d");
 
@@ -45,7 +44,7 @@ window.onload = function()
     backgroundCanvas.height = canvasHeight;
     backgroundContext = backgroundCanvas.getContext('2d');
 
-    game.initGame(canvasWidth, canvasHeight);
+    game.initGame(canvasWidth, canvasHeight, scale, canvas);
 
     if( drawStaticBackground != null )
         drawStaticBackground(backgroundContext);
