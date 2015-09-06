@@ -121,7 +121,7 @@ Level.prototype.addTile = function (char, x, y)
             this.player = new Player(pX, pY);
             break;
         case 'E':
-            var enemy = new Enemy(pX, pY);
+            var enemy = new Enemy(pX, pY + 44);
             enemy.onCollide = this.levelFailed;
             this.enemies.push(enemy);
             break;
