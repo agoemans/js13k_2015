@@ -12,11 +12,11 @@ inherit(Enemy,Sprite);
 ctor(Enemy);
 
 
-Enemy.prototype.collide = function(other)
+Enemy.prototype.stabPlayer = function(other)
 {
-    if(!this.collided)
+    if(!this.collided && this.overlap(Level.instance.player.x, Level.instance.player.y, Level.instance.player.width,Level.instance.player.height))
     {
-        Sprite.prototype.collide.call(this, other);
+        Sprite.prototype.collide.call(this);
         this.collided = true;
     }
 };
@@ -30,7 +30,7 @@ Enemy.prototype.update = function(deltaSeconds)
 	if (this.colliding.left===true){
 		this.velocity.x =55;
 	} 
-
-
+	this.stabPlayer();
+	
     Sprite.prototype.update.call(this, deltaSeconds);
 };
