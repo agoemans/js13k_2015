@@ -8,6 +8,7 @@ var game = (function(){
     module.states = {};
     module.activeState = null;
     module.overlay = null;
+    module.scale = 1;
     module.width = 0;
     module.height = 0;
 

@@ -10,10 +10,10 @@ Menu.prototype.enter = function ()
     game.audio.add('start',1,[[2,,0.18,,,0.23,,,,,,,,,,,,,1,,,0.1,,0.29]]);
 
     State.prototype.enter.call(this);
-    var text = new Text(canvasWidth / 2 - 250, 100, 120, "Trebuchet MS", "Reversed");
+    var text = new Text(canvasWidth / 2 - 250, canvasHeight / 5, 120, "Trebuchet MS", "Reversed");
     this.add(text);
 
-    this.playButton = new Text(canvasWidth / 2 - 50, canvasHeight / 2 - 60, 60, "Trebuchet MS ", "Play");
+    this.playButton = new Text(canvasWidth / 2 - 50, 3*canvasHeight / 5, 60, "Trebuchet MS ", "Play");
     this.add(this.playButton);
     this.playButton.onClick = function ()
     {

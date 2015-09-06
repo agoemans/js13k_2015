@@ -11,7 +11,7 @@ var context = null;
 var drawFps = true;
 
 var canvasWidth = 800;
-var canvasHeight = 480;
+var canvasHeight = 896;
 
 var localCanvas = null;
 var localContext = null;
@@ -25,8 +25,10 @@ window.onload = function()
 {
     var canvas = document.getElementById("game");
 
-    canvasWidth = window.innerWidth;
-    canvasHeight = window.innerHeight;
+    canvasWidth = window.innerWidth/window.innerHeight * canvasHeight;
+    //canvasHeight = window.innerHeight;
+
+    game.scale = window.innerHeight/canvasHeight;
 
     context = canvas.getContext("2d");
 
@@ -61,19 +63,19 @@ window.onload = function()
     canvas.addEventListener('mousemove', function(evt)
     {
         var mousePos = getMousePos(canvas, evt);
-        game.mouseMove(mousePos.x, mousePos.y)
+        game.mouseMove(mousePos.x/game.scale, mousePos.y/game.scale);
     }, false);
 
     canvas.addEventListener('mousedown', function(evt)
     {
         var mousePos = getMousePos(canvas, evt);
-        game.mouseDown(mousePos.x, mousePos.y)
+        game.mouseDown(mousePos.x/game.scale, mousePos.y/game.scale);
     }, false);
 
     canvas.addEventListener('mouseup', function(evt)
     {
         var mousePos = getMousePos(canvas, evt);
-        game.mouseUp(mousePos.x, mousePos.y)
+        game.mouseUp(mousePos.x/game.scale, mousePos.y/game.scale);
     }, false);
 
 }
@@ -106,6 +108,7 @@ function update()
 
     localContext.restore();
 
+    context.setTransform(game.scale,0,0,game.scale,0,0);
     context.drawImage(backgroundCanvas, 0, 0, canvasWidth, canvasHeight);
     context.drawImage(localCanvas, 0, 0, canvasWidth, canvasHeight);
     requestAnimationFrame(update);
