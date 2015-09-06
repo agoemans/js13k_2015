@@ -1,20 +1,23 @@
-function Tutorial()
+function Popup()
 {
+    this.permanent = false;
     State.call(this);
     this.width = 400;
     this.height = 150;
 };
 
-Tutorial.prototype = Object.create(State.prototype);
+Popup.prototype = Object.create(State.prototype);
 
-Tutorial.prototype.enter = function (config)
+Popup.prototype.enter = function (config)
 {
     State.prototype.enter.call(this);
+
+    this.permanent = config.permanent;
 
     this.height = 150;
     this.clear();
 
-    var text = new Text(this.width / 2 - 50, 6, 28, "Trebuchet MS", "Tutorial");
+    var text = new Text(this.width / 2 - 50, 6, 28, "Trebuchet MS", config.title);
     text.color = "#222";
     this.add(text);
 
@@ -29,7 +32,7 @@ Tutorial.prototype.enter = function (config)
 
 };
 
-Tutorial.prototype.render = function (context)
+Popup.prototype.render = function (context)
 {
     context.globalAlpha = 0.5;
     context.fillStyle = "#000";
@@ -48,4 +51,4 @@ Tutorial.prototype.render = function (context)
     context.setTransform(1,0,0,1,0,0);
 };
 
-ctor(Tutorial);
+ctor(Popup);

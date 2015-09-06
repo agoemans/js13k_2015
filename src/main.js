@@ -22,7 +22,7 @@ var game = (function(){
         module.audio = new AudioPlayer();
         module.states["menu"] = new Menu();
         module.states["game"] = new Game();
-        module.states["tutorial"] = new Tutorial();
+        module.states["pp"] = new Popup();
         module.goto("menu");
     };
 
@@ -49,15 +49,15 @@ var game = (function(){
         module.activeState.enter(config);
     };
 
-    module.popup = function(state, config)
+    module.popup = function(config)
     {
-        module.overlay = module.states[state];
+        module.overlay = module.states['pp'];
         module.overlay.enter(config);
     };
 
     module.mouseUp = function(x,y)
     {
-        if(module.overlay)
+        if(module.overlay && !module.overlay.permanent)
         {
             module.overlay.leave();
             module.overlay = null;
@@ -86,7 +86,7 @@ var game = (function(){
 
     module.keyUp = function(key)
     {
-        if(module.overlay)
+        if(module.overlay && !module.overlay.permanent)
         {
             module.overlay.leave();
             module.overlay = null;

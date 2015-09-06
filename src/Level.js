@@ -1,5 +1,6 @@
 function Level(file)
 {
+    this.numLevels = Infinity;
     this.tileSize = 64;
     this.xOffset = 1;
     this.yOffset = 1;
@@ -177,15 +178,22 @@ Level.prototype.levelComplete = function (x,y)
 
     var topLevel = parseInt(levelStr);
     topLevel++;
-    localStorage['js13_currentLevel'] = topLevel;
 
-    // TODO:
-    // Show win popup
-    //
-    setTimeout(function ()
+    if(topLevel === this.numLevels+1)
     {
-        game.goto("game", {level: topLevel});
-    }, Level.instance.respawnTime * 1000);
+        game.popup({title: "Congrats!", lines: ['You finished the game!','Click anywhere to play again'], permanent: true});
+        topLevel = 1;
+    }
+    else
+    {
+        localStorage['js13_currentLevel'] = topLevel;
+
+        setTimeout(function ()
+        {
+            game.goto("game", {level: topLevel});
+        }, Level.instance.respawnTime * 1000);
+
+    }
 };
 
 Level.prototype.tileAt = function (x, y)
