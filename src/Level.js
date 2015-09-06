@@ -125,6 +125,13 @@ Level.prototype.addTile = function (char, x, y)
             enemy.onCollide = this.levelFailed;
             this.enemies.push(enemy);
             break;
+        case 'F':
+            var enemy = new Enemy(pX, pY);
+            enemy.flipY = true;
+            enemy.gravity = -enemy.gravity;
+            enemy.onCollide = this.levelFailed;
+            this.enemies.push(enemy);
+            break;
         default:
             break;
     }
@@ -136,6 +143,13 @@ Level.prototype.addTile = function (char, x, y)
         this.tileObects[y][x] = object;
         return object;
     }
+
+    setTimeout(function(){
+        this.enemies.forEach(function(obj){
+            obj.activate();
+        });
+        this.player.activate();
+    }.bind(this), 1000);
 
     return null;
 };

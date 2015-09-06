@@ -213,6 +213,16 @@ Sprite.prototype.stop = function ()
     this.animating = false;
 };
 
+Sprite.prototype.isActive = function()
+{
+    return this.physics;
+};
+
+Sprite.prototype.activate = function()
+{
+    this.physics = true;
+};
+
 Sprite.prototype.update = function (deltaSeconds)
 {
     if (this.physics)

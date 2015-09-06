@@ -2,8 +2,6 @@ function Enemy(x,y)
 {
     Sprite.call(this, x, y, 'assets/Enemy.png');
     this.collided = false;
-    this.physics = true;
-    this.gravity = 0;
     this.velocity.x = 55;
 
 };
@@ -24,10 +22,15 @@ Enemy.prototype.stabPlayer = function(other)
 
 Enemy.prototype.update = function(deltaSeconds)
 {
-	if (this.colliding.right===true){
+    this.nextTileY = this.flipY ? this.y - 1 : this.y + this.height;
+
+    if (this.colliding.right || !Level.instance.tileAt(this.x + this.width, this.nextTileY) && this.velocity.x > 0 )
+    {
 		this.velocity.x =-55;
 	}
-	if (this.colliding.left===true){
+
+	if (this.colliding.left || !Level.instance.tileAt(this.x, this.nextTileY) && this.velocity.x < 0)
+    {
 		this.velocity.x =55;
 	} 
 	this.stabPlayer();
