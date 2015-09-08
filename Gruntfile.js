@@ -84,7 +84,7 @@ module.exports = function(grunt) {
 					expand: true,
 					flatten: true,
 					cwd: './',
-					src: ['build/*.css', 'build/*.js', 'build/*.html'],
+					src: ['build/**/*.*'],
 					dest: './'
 				}]
 			}
@@ -107,11 +107,22 @@ module.exports = function(grunt) {
                 dest: 'build/compiled.js'
             }
         },
+        replace: {
+            assets: {
+                src: ['build/*.js'],
+                overwrite: true,                 // overwrite matched source files
+                replacements: [{
+                    from: "assets/",
+                    to: ""
+                }]
+            }
+        },
 		'closure-compiler': {
 			game: {
 				closurePath: 'closure',
 				js: 'build/compiled.js',
-				jsOutputFile: 'build/compiled.min.js',
+				jsOutputFile: 'build/c.js',
+                noreport: true,
 				maxBuffer: 10240,
 				options: {
 					compilation_level: 'ADVANCED_OPTIMIZATIONS',
@@ -122,13 +133,20 @@ module.exports = function(grunt) {
 		copy: {
 			assets: {
 				files: [
-					{expand: true, src: ['assets/*'], dest: 'build/', filter: 'isFile'},
+					{expand: true, flatten: true, src: ['assets/*'], dest: 'build/', filter: 'isFile'},
 				],
 			},
 		},
+        clean:
+        {
+            compiled: ["build/compiled.js"],
+            build: ["build/game.zip"]
+        }
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-text-replace');
+	grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -152,7 +170,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('closure', ['closure-compiler']);
 	grunt.registerTask('default', ['watch']);
-	grunt.registerTask('build', ['concat', 'closure']);
-	grunt.registerTask('build-compress', ['uglify:compressed', 'closure', 'compress:main', 'sizecheck']);
+	grunt.registerTask('build', ['concat', 'closure', 'replace', 'clean']);
+	grunt.registerTask('build-compress', ['build', 'compress:main', 'sizecheck']);
 
 };
