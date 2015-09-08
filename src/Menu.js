@@ -8,7 +8,7 @@ Menu.prototype = Object.create(State.prototype);
 Menu.prototype.enter = function ()
 {
     game.canvas.style.backgroundColor = "#ffffff";
-    game.audio.add('start',1,[[2,,0.18,,,0.23,,,,,,,,,,,,,1,,,0.1,,0.29]]);
+    game.audio.add('start',1,[[2,,0.18,,,0.23,,,,,,,,,,,,,1,,,0.1,,0.3]]);
 
     State.prototype.enter.call(this);
     var text = new Text(canvasWidth / 2 - 250, canvasHeight / 5, 120, "Trebuchet MS", "Reversed");

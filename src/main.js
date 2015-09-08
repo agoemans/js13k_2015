@@ -59,6 +59,7 @@ var game = (function(){
     {
         if(module.overlay && !module.overlay.permanent)
         {
+            game.audio.play('start');
             module.overlay.leave();
             module.overlay = null;
         }

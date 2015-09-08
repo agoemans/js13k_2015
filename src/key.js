@@ -2,6 +2,7 @@ function Key(x, y, imageName)
 {
     Sprite.call(this, x, y, imageName);
     this.onGoalReached = null;
+    game.audio.add('key',1,[[0,,0.0289,0.5117,0.151,0.7819,,,,,,,,,,,,,1,,,,,0.3]]);
 };
 
 inherit(Key, Sprite);
@@ -12,14 +13,5 @@ Key.prototype.collide = function (other)
     this.collides = false;
     this.destroy();
     Level.instance.player.hasKey=true;
-    
-};
-
-Key.prototype.update = function(deltaSeconds)
-{
-	if (this.onGoalReached){
-		this.image.src="assets/wall.png"
-	}	
-	
-    Sprite.prototype.update.call(this, deltaSeconds);
+    game.audio.play('key');
 };
