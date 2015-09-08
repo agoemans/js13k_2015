@@ -9,13 +9,6 @@
 })();
 
 
-
-function rgb(r,g,b)
-{
-    return "#" + Math.floor(r).toString(16) + Math.floor(g).toString(16) + Math.floor(b).toString(16);
-};
-
-
 Math.sign = function(x) { return x ? x < 0 ? -1 : 1 : 0; }
 
 
@@ -29,49 +22,6 @@ function getMousePos(canvas, evt)
     };
 };
 
-
-
-function fastRound(value)
-{
-    return ~~ (value + (value > 0 ? .5 : -.5));
-}
-
-
-function Color(r, g, b)
-{
-
-    this.r = r;
-    this.g = g;
-    this.b = b;
-
-    this._tempLerpColor = null;
-
-    this.toHex = function()
-    {
-        return rgb(this.r,this.g,this.b);
-    }
-
-
-
-    this.lerp = function(to, percentage)
-    {
-
-        if( this._tempLerpColor == null )
-            this._tempLerpColor = new Color(0,0,0);
-
-        this._tempLerpColor.r = Math.floor(this.r + (to.r - this.r)*percentage);
-        this._tempLerpColor.g = Math.floor(this.g + (to.g - this.g)*percentage);
-        this._tempLerpColor.b = Math.floor(this.b + (to.b - this.b)*percentage);
-
-        return this._tempLerpColor;
-    }
-
-};
-
-
-
-var White = new Color(255,255,255);
-
 Array.prototype.clone = function() {
     return this.slice(0);
 };
@@ -81,27 +31,6 @@ Math.clamp = function(value, min, max) { return Math.min(Math.max(value,min), ma
 Array.prototype.remove = function(object)
 {
     this.splice(this.indexOf(object), 1);
-};
-
-function distance(x1, y1, x2, y2)
-{
-    return Math.sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2));
-}
-
-function lerp(percent, min, max)
-{
-    return min + percent * (max - min);
-}
-
-
-Math.lerp = function(percent, min, max)
-{
-    return min + percent * (max - min);
-}
-
-function isFunction(possibleFunction)
-{
-    return (typeof(possibleFunction) == typeof(Function));
 };
 
 var getUrlParameter = function getUrlParameter(sParam) {
@@ -127,6 +56,7 @@ function ctor(func)
 function inherit(child, parent)
 {
     child.prototype = Object.create(parent.prototype);
+    child.p = child.prototype;
 }
 
 

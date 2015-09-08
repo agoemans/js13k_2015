@@ -5,7 +5,7 @@ function Game()
     this.cameraOffset = 0;
 };
 
-Game.prototype = Object.create(State.prototype);
+inherit(Game,State);
 
 Game.prototype.enter = function (config)
 {

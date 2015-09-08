@@ -18,12 +18,7 @@ function ParticleEmitter(x, y, lifeTime)
     this.alive = false;
 };
 
-ParticleEmitter.prototype = Object.create(GameObject.prototype);
-
-ParticleEmitter.prototype.destroy = function ()
-{
-    //Level.instance.removeAt(this.x, this.y);
-};
+inherit(ParticleEmitter, Object);
 
 ParticleEmitter.prototype.emit = function (x, y, color)
 {

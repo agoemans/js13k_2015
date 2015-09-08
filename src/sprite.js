@@ -46,7 +46,7 @@ function Sprite(x, y, image, frameCount, animCount)
     this.velocity = {x: 0, y: 0};
 };
 
-Sprite.prototype = Object.create(GameObject.prototype);
+inherit(Sprite,GameObject);
 
 Sprite.prototype.resetCollision = function ()
 {

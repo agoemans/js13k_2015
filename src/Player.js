@@ -13,7 +13,7 @@ function Player(x, y)
     game.audio.add('die',1,[[1,0.0273,0.01,0.16,0.71,0.56,,-0.4599,0.3519,0.4213,0.0476,0.1725,,0.9815,0.1661,0.6997,0.0006,-0.1146,0.7501,0.7435,0.0332,0.4191,0.422,0.3]]);
 };
 
-Player.prototype = Object.create(Sprite.prototype);
+inherit(Player, Sprite);
 
 Player.prototype.move = function (dir)
 {

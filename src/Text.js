@@ -9,7 +9,7 @@ function Text(x, y, size, font, text)
     this.color = "#333";
 };
 
-Text.prototype = Object.create(GameObject.prototype);
+inherit(Text,GameObject);
 
 Text.prototype.update = function (deltaSeconds)
 {

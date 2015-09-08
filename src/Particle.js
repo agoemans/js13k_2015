@@ -9,7 +9,7 @@ function Particle(x, y, w, h, vx, vy)
     this.velocity = {x: vx, y: vy};
 };
 
-Particle.prototype = Object.create(GameObject.prototype);
+inherit(Particle,Object);
 
 Particle.prototype.destroy = function ()
 {

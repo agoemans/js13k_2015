@@ -6,7 +6,7 @@ function Popup()
     this.height = 150;
 };
 
-Popup.prototype = Object.create(State.prototype);
+inherit(Popup,State);
 
 Popup.prototype.enter = function (config)
 {

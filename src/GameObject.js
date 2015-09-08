@@ -12,7 +12,7 @@ function GameObject(x, y)
     this.onMouseUp = null;
 };
 
-GameObject.prototype = Object.create(Object.prototype);
+inherit(GameObject, Object);
 
 GameObject.prototype.update = function (deltaSeconds)
 {

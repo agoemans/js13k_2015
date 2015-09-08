@@ -3,7 +3,7 @@ function Menu()
     State.call(this);
 };
 
-Menu.prototype = Object.create(State.prototype);
+inherit(Menu,State);
 
 Menu.prototype.enter = function ()
 {

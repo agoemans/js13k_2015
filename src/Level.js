@@ -33,7 +33,7 @@ function Level(file)
     Level.instance = this;
 };
 
-Level.prototype = Object.create(Object.prototype);
+inherit(Level, Object);
 
 Level.prototype.levelLoaded = function (data)
 {

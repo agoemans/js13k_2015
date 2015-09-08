@@ -4,7 +4,7 @@ function State()
     this.currentMouseOver = null;
 };
 
-State.prototype = Object.create(Object.prototype);
+inherit(State,Object);
 
 State.prototype.enter = function ()
 {
