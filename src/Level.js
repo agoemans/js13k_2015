@@ -1,6 +1,5 @@
-function Level(file)
+function Level(number)
 {
-    this.numLevels = Infinity;
     this.tileSize = 64;
     this.xOffset = 1;
     this.yOffset = 1;
@@ -23,8 +22,7 @@ function Level(file)
 
     this.bgLayer = [];
     this.renderList = [];
-    this.file = file;
-    this.loadLevel(file);
+    this.loadLevel(number);
 
     this.particles = new ParticleEmitter(0, 0, this.respawnTime);
 
@@ -52,13 +50,16 @@ Level.prototype.processFileData = function (data)
         mainlist.push(templist[i].trim().split(""));
     }
     this.levelLoaded(mainlist);
-
 }
 
 
-Level.prototype.loadLevel = function (file)
+Level.prototype.loadLevel = function (number)
 {
-    loadFile(this.processFileData, this, file);
+    if(number >= game.levels.length)
+        number = 1;
+
+    var level = game.levels[number-1];
+    this.processFileData(level);
 };
 
 Level.prototype.processLevel = function ()
@@ -83,13 +84,13 @@ Level.prototype.processLevel = function ()
         {
             var newX = x + this.xOffset;
             var newY = y + this.yOffset;
-            var sprite = new Sprite(newX * this.tileSize, newY * this.tileSize, "assets/bg.png");
-            this.bgLayer.push(sprite);
-
             var tile = row[x];
             this.addTile(tile, newX, newY);
         }
     }
+
+    for(var i=0;i<100;i++)
+        this.bgLayer.push({x: Math.random()*this.tilesX*this.tileSize,y: Math.random()*this.tilesY*this.tileSize,size: Math.random()*10});
 
     this.width = this.tilesX * this.tileSize;
     this.height = this.tilesY * this.tileSize;
@@ -104,9 +105,11 @@ Level.prototype.addTile = function (char, x, y)
     {
         case 'Y':
             object = new Sprite(pX, pY, "assets/wall.png");
+            object.tint = "#644637";
             break;
         case 'W':
             object = new Sprite(pX, pY, "assets/wall2.png");
+            object.tint = "#2277aa";
             break;
         case 'D':
             object = new Door(20 + pX, pY, "assets/door.png");
@@ -185,21 +188,20 @@ Level.prototype.levelComplete = function (x,y)
     var topLevel = parseInt(levelStr);
     topLevel++;
 
-    if(topLevel === this.numLevels+1)
+    if(topLevel > game.levels.length)
     {
-        game.popup({title: "Congrats!", lines: ['You finished the game!','Click anywhere to play again'], permanent: true});
+        game.popup({title: "Congrats!", lines: ['You finished the game!','Reload the page to play again!'], permanent: true});
         topLevel = 1;
     }
     else
     {
-        localStorage['js13_currentLevel'] = topLevel;
-
         setTimeout(function ()
         {
             game.goto("game", {level: topLevel});
         }, Level.instance.respawnTime * 1000);
-
     }
+
+    localStorage['js13_currentLevel'] = topLevel;
 };
 
 Level.prototype.tileAt = function (x, y)
@@ -261,9 +263,12 @@ Level.prototype.update = function (deltaSeconds)
 
 Level.prototype.render = function (context)
 {
+    context.fillStyle = "#222";
+    context.fillRect(0,0,this.tilesX*this.tileSize,this.tilesY*this.tileSize);
+    context.fillStyle = "#2A2A2A";
     this.bgLayer.forEach(function (obj)
     {
-        obj.render(context);
+        context.fillRect(obj.x, obj.y, obj.size, obj.size);
     });
 
     this.renderList.forEach(function(obj)

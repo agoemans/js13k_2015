@@ -90,9 +90,28 @@ module.exports = function(grunt) {
 			}
 		},
         concat: {
-            options: {
-            },
-            dist: {
+			options: {},
+			levels: {
+				src: [
+					'assets/level1.txt',
+					'assets/level2.txt',
+					'assets/level3.txt',
+					'assets/level4.txt',
+					'assets/level5.txt',
+					'assets/level6.txt',
+					'assets/level7.txt',
+					'assets/level8.txt',
+					'assets/level9.txt',
+					'assets/level10.txt',
+					'assets/level11.txt',
+					'assets/level12.txt'
+				],
+				dest: 'assets/levels.txt',
+				options: {
+					separator: '&'
+				},
+			},
+			source: {
                 src: ['src/game_framework.js',
                     'src/common.js',
                     'src/main.js',
@@ -172,5 +191,6 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', ['watch']);
 	grunt.registerTask('build', ['concat', 'closure', 'replace', 'clean']);
 	grunt.registerTask('build-compress', ['build', 'compress:main', 'sizecheck']);
+	grunt.registerTask('zip', ['compress:main', 'sizecheck']);
 
 };

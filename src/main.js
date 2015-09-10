@@ -12,6 +12,7 @@ var game = (function(){
     module.width = 0;
     module.height = 0;
     module.canvas = null;
+    module.levels = [];
 
     module.initGame = function(w,h,scale,canvas)
     {

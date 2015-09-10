@@ -15,11 +15,9 @@ Game.prototype.enter = function (config)
     this.cameraOffset = 0;
 
     var level = getUrlParameter('level') || config.level;
-    var levelName = 'assets/level'+level+'.txt';
-
-    this.level = new Level(levelName);
-
     var levelInt = parseInt(level);
+
+    this.level = new Level(levelInt);
     if(levelInt == 1)
         game.popup({ title: "Tutorial", lines: ['Use LEFT and RIGHT to move', 'Use UP to jump'] });
     else if(levelInt == 2)

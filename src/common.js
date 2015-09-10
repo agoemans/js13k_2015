@@ -4,7 +4,7 @@
 {
     var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
         window.webkitRequestAnimationFrame || window.msRequestAnimationFrame ||
-        window.oRequestAnimationFrame || function(callback){ window.setTimeout(callback, 1000 / 60); };;
+        window.oRequestAnimationFrame || function(callback){ window.setTimeout(callback, 1000 / 60); };
     window.requestAnimationFrame = requestAnimationFrame;
 })();
 

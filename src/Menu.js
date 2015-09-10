@@ -7,6 +7,7 @@ inherit(Menu,State);
 
 Menu.prototype.enter = function ()
 {
+
     game.canvas.style.backgroundColor = "#ffffff";
     game.audio.add('start',1,[[2,,0.18,,,0.23,,,,,,,,,,,,,1,,,0.1,,0.3]]);
 
@@ -15,7 +16,12 @@ Menu.prototype.enter = function ()
     this.add(text);
 
     this.playButton = new Text(canvasWidth / 2 - 50, 3*canvasHeight / 5, 60, "Trebuchet MS ", "Play");
-    this.add(this.playButton);
+
+    loadFile(function(data){
+        game.levels = data.split('&');
+        this.add(this.playButton);
+    }, this, 'assets/levels.txt');
+
     this.playButton.onClick = function ()
     {
         var levelStr = localStorage['js13_currentLevel'] || 1;
