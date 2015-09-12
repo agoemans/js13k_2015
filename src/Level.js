@@ -90,7 +90,7 @@ Level.prototype.processLevel = function ()
     }
 
     for(var i=0;i<100;i++)
-        this.bgLayer.push({x: Math.random()*this.tilesX*this.tileSize,y: Math.random()*this.tilesY*this.tileSize,size: Math.random()*10});
+        this.bgLayer.push({x: Math.random()*(this.tilesX*this.tileSize-20)+10,y: Math.random()*(this.tilesY*this.tileSize-20)+10,size: Math.random()*10});
 
     this.width = this.tilesX * this.tileSize;
     this.height = this.tilesY * this.tileSize;
@@ -166,7 +166,7 @@ Level.prototype.levelFailed = function ()
     var player = Level.instance.player;
     Level.instance.particles.emit(player.x + player.width/2, player.y + player.height/2, '#AAAAAA');
     Level.instance.player.die();
-    var levelStr = localStorage['js13_currentLevel'] || 1;
+    var levelStr = localStorage[game.keyName] || 1;
     var topLevel = parseInt(levelStr);
 
 
@@ -183,7 +183,7 @@ Level.prototype.levelComplete = function (x,y)
 {
     game.audio.play('win');
     Level.instance.particles.emit(x, y, '#AAFFAA');
-    var levelStr = localStorage['js13_currentLevel'] || 1;
+    var levelStr = localStorage[game.keyName] || 1;
 
     var topLevel = parseInt(levelStr);
     topLevel++;
@@ -201,7 +201,7 @@ Level.prototype.levelComplete = function (x,y)
         }, Level.instance.respawnTime * 1000);
     }
 
-    localStorage['js13_currentLevel'] = topLevel;
+    localStorage[game.keyName] = topLevel;
 };
 
 Level.prototype.tileAt = function (x, y)

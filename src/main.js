@@ -13,6 +13,7 @@ var game = (function(){
     module.height = 0;
     module.canvas = null;
     module.levels = [];
+    module.keyName = "js13adg_currentLevel";
 
     module.initGame = function(w,h,scale,canvas)
     {

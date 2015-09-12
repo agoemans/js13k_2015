@@ -24,7 +24,7 @@ Menu.prototype.enter = function ()
 
     this.playButton.onClick = function ()
     {
-        var levelStr = localStorage['js13_currentLevel'] || 1;
+        var levelStr = localStorage[game.keyName] || 1;
         var topLevel = parseInt(levelStr);
 
         game.audio.play('start');
