@@ -55,7 +55,7 @@ Level.prototype.processFileData = function (data)
 
 Level.prototype.loadLevel = function (number)
 {
-    if(number >= game.levels.length)
+    if(number > game.levels.length)
         number = 1;
 
     var level = game.levels[number-1];
