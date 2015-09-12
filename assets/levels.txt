@@ -56,10 +56,11 @@ ________WW___E__
 _+_______W_WWWWW
 _W____WW_W______
 ____E_W__WWWWW__
-S_WWWWW_________&________________________X
-_________________________
-S_K_________________E____
-W____D_E___+++_WWWWWWWW++&_^^^W^___WF_____
+S_WWWWW_________&_WWF____W^W^W__F_F_F_^WWW
+WWW___+_______________D_X
+_F__WWW_____K________WWWW
+S_++____+_+________+WWWWW
+WWWW____W+W++_____+WWWWWW&_^^^W^___WF_____
 ____K____W+__WWX
 ___E_E___WWW__WW
 _WWW_WWWWW_D___W
@@ -92,4 +93,8 @@ __EWKE_W___W
 _WWWWWWW____
 __F_________
 E____EWE____
-WW_K_WWWE__E
+WW_K_WWWE__E&WWW___^W_F_D_F_
+WW^__E_W___W+__
+F___WW_K+_WWWW_
+___WWW__W_WX___
+S_WWWW_E__WW+__
