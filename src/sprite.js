@@ -180,7 +180,7 @@ Sprite.prototype.doCollision = function (elapsed)
     collidingObjects.forEach(function (other)
     {
         if (other && other.collides) other.collide(this);
-    });
+    }.bind(this));
 
     progress = elapsed * steps / totalSteps;
     this.x += velX * progress;

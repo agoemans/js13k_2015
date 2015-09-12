@@ -5,12 +5,8 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		watch: {
 			scripts: {
-				files: ['src/**/*.js'],
-				tasks: ['concat:app'],
-			},
-			css: {
-				files: 'css/**/*.less',
-				tasks: ['less:development']
+				files: ['assets/*.txt', '!assets/levels.txt'],
+				tasks: ['concat:levels'],
 			},
 		},
 		uglify: {
@@ -104,7 +100,8 @@ module.exports = function(grunt) {
 					'assets/level9.txt',
 					'assets/level10.txt',
 					'assets/level11.txt',
-					'assets/level12.txt'
+					'assets/level12.txt',
+					'assets/level13.txt'
 				],
 				dest: 'assets/levels.txt',
 				options: {
@@ -189,6 +186,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('closure', ['closure-compiler']);
 	grunt.registerTask('default', ['watch']);
+	grunt.registerTask('levels', ['concat:levels']);
 	grunt.registerTask('build', ['concat', 'closure', 'replace', 'clean']);
 	grunt.registerTask('build-compress', ['build', 'compress:main', 'sizecheck']);
 	grunt.registerTask('zip', ['compress:main', 'sizecheck']);

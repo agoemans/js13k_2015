@@ -6,7 +6,7 @@ function Player(x, y)
     this.moveDirX = 0;
     this.inputLocked = false;
 
-    this.hasKey = null;
+    this.numKeys = 0;
 
     game.audio.add('jump',1,[[0,,0.22,,0.1871,0.3251,,0.2199,,,,-0.2199,,0.1513,0.02,,,,0.74,,,,-0.02,0.3]]);
     game.audio.add('flip',1,[[0,,0.18,0.49,,0.49,,0.7,-0.02,,,-0.24,,0.12,-0.04,,-0.02,-0.02,0.48,,,,,0.3]]);

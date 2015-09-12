@@ -10,8 +10,11 @@ ctor(Key);
 
 Key.prototype.collide = function (other)
 {
+    if(!(other instanceof Player))
+        return;
+
     this.collides = false;
     this.destroy();
-    Level.instance.player.hasKey=true;
+    Level.instance.player.numKeys++;
     game.audio.play('key');
 };

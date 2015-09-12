@@ -11,10 +11,12 @@ ctor(Door);
 
 Door.prototype.collide = function (other)
 {
-	if(Level.instance.player.hasKey){	
+	if(!(other instanceof Player))
+		return;
+	if(Level.instance.player.numKeys){
+		Level.instance.player.numKeys--;
 	    this.collides = false;
 	    this.destroy();
-	    this.onGoalReached=true;
         game.audio.play('door');
 	}
     else

@@ -10,7 +10,7 @@ ctor(Spike);
 
 Spike.prototype.collide = function (other)
 {
-    if (!this.collided)
+    if (!this.collided && other instanceof Player)
     {
         Sprite.prototype.collide.call(this, other);
         this.collided = true;

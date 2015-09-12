@@ -24,12 +24,14 @@ Enemy.prototype.update = function(deltaSeconds)
 {
     this.nextTileY = this.flipY ? this.y - 1 : this.y + this.height;
 
-    if (this.colliding.right || !Level.instance.tileAt(this.x + this.width, this.nextTileY) && this.velocity.x > 0 )
+    var right = Level.instance.tileAt(this.x + this.width, this.nextTileY);
+    if (this.colliding.right || (!right || right instanceof Spike) && this.velocity.x > 0 )
     {
 		this.velocity.x =-55;
 	}
 
-	if (this.colliding.left || !Level.instance.tileAt(this.x, this.nextTileY) && this.velocity.x < 0)
+    var left = Level.instance.tileAt(this.x, this.nextTileY);
+	if (this.colliding.left || (!left || left instanceof Spike) && this.velocity.x < 0)
     {
 		this.velocity.x =55;
 	} 

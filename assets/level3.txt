@@ -1,8 +1,8 @@
-____________
-WWWWWW__WWWW
-______WW____
-____________
-____________
-______WW____
-______WW___X
-S_____WW____
+W_W_W_W_W_W_W_W_W_W_W_W_
+_W_W_W_W_W_W_W_W_W_W_W_W
+WWWWWWWWWWWWWWWWWWWWWWWW
+_W_^^^^^_____W__^^^^_WW_
+W____K________________WW
+____WWWWW_____________DX
+___WWWWWW__________WWWWW
+S_WWWWWWW++++____WWWWWWW

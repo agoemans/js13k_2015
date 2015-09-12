@@ -22,8 +22,12 @@ Game.prototype.enter = function (config)
         game.popup({ title: "Tutorial", lines: ['Use LEFT and RIGHT to move', 'Use UP to jump'] });
     else if(levelInt == 2)
         game.popup({ title: "Tutorial", lines: ['Use SPACE to flip gravity'] });
+    else if(levelInt == 3)
+        game.popup({ title: "Tutorial", lines: ['Watch out for those spikes!','Collect keys to unlock doors'] });
     else if(levelInt == 4)
-        game.popup({ title: "Tutorial", lines: ['Watch out for those spikes!'] });
+        game.popup({ title: "Tutorial", lines: ['Moving spikes are even worse!!'] });
+    else if(levelInt == 5)
+        game.popup({ title: "Tutorial", lines: ['Sometimes it helps to flip', 'gravity while falling/jumping'] });
 };
 
 Game.prototype.leave = function ()
