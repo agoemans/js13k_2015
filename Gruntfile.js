@@ -3,15 +3,11 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		watch: {
-			scripts: {
-				files: ['src/**/*.js'],
-				tasks: ['concat:app'],
-			},
-			css: {
-				files: 'css/**/*.less',
-				tasks: ['less:development']
-			},
+		watch: { 
+			scripts: { 
+				files: ['assets/*.txt', '!assets/levels.txt'],
+				tasks: ['concat:levels'], 
+			}, 
 		},
 		uglify: {
 			development: {
@@ -104,7 +100,9 @@ module.exports = function(grunt) {
 					'assets/level9.txt',
 					'assets/level10.txt',
 					'assets/level11.txt',
-					'assets/level12.txt'
+					'assets/level12.txt',
+					'assets/level13.txt',
+					'assets/level14.txt'
 				],
 				dest: 'assets/levels.txt',
 				options: {
