@@ -102,7 +102,13 @@ module.exports = function(grunt) {
 					'assets/level11.txt',
 					'assets/level12.txt',
 					'assets/level13.txt',
-					'assets/level14.txt'
+					'assets/level14.txt',
+                    'assets/level15.txt',
+                    'assets/level16.txt',
+                    'assets/level17.txt',
+                    'assets/level18.txt',
+                    'assets/level19.txt',
+                    'assets/level20.txt'
 				],
 				dest: 'assets/levels.txt',
 				options: {
@@ -153,6 +159,11 @@ module.exports = function(grunt) {
 					{expand: true, flatten: true, src: ['assets/*'], dest: 'build/', filter: 'isFile'},
 				],
 			},
+            levels: {
+                files: [
+                    {expand: true, flatten: true, src: ['assets/levels.txt'], dest: 'build/', filter: 'isFile'},
+                ],
+            }
 		},
         clean:
         {
@@ -188,7 +199,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('closure', ['closure-compiler']);
 	grunt.registerTask('default', ['watch']);
 	grunt.registerTask('levels', ['concat:levels']);
-	grunt.registerTask('build', ['concat', 'closure', 'replace', 'clean']);
+	grunt.registerTask('build', ['concat', 'copy:levels', 'closure', 'replace', 'clean']);
 	grunt.registerTask('build-compress', ['build', 'compress:main', 'sizecheck']);
 	grunt.registerTask('zip', ['compress:main', 'sizecheck']);
 
