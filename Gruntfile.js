@@ -104,11 +104,7 @@ module.exports = function(grunt) {
 					'assets/level13.txt',
 					'assets/level14.txt',
                     'assets/level15.txt',
-                    'assets/level16.txt',
-                    'assets/level17.txt',
-                    'assets/level18.txt',
-                    'assets/level19.txt',
-                    'assets/level20.txt'
+                    'assets/level16.txt'
 				],
 				dest: 'assets/levels.txt',
 				options: {

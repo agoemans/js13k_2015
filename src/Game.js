@@ -26,7 +26,7 @@ Game.prototype.enter = function (config)
         game.popup({ title: "Tutorial", lines: ['Watch out for those spikes!','Collect keys to unlock doors'] });
     else if(levelInt == 4)
         game.popup({ title: "Tutorial", lines: ['Moving spikes are even worse!!'] });
-    else if(levelInt == 5)
+    else if(levelInt == 7)
         game.popup({ title: "Tutorial", lines: ['Sometimes it helps to flip', 'gravity while falling/jumping'] });
 };
 
