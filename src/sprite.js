@@ -228,8 +228,7 @@ Sprite.prototype.update = function (deltaSeconds)
 {
     if (this.physics)
     {
-        var elapsed = Math.min(deltaSeconds, 0.016);
-        this.velocity.y += this.gravity * elapsed;
+        this.velocity.y += this.gravity * deltaSeconds;
 
         this.resetCollision();
         this.doCollision(deltaSeconds);
